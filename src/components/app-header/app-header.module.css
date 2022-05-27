@@ -1,0 +1,51 @@
+.header {
+  background-color: #1c1c21;
+  min-width: 1280px;
+}
+
+.wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo {
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content max-content minmax(max-content, 1fr);
+  column-gap: 8px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  background: none;
+  color: inherit;
+  display: flex;
+  box-sizing: border-box;
+  border: none;
+  transition: opacity 0.3s linear;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.6;
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+}

@@ -1,0 +1,12 @@
+.categoryList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tabList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
