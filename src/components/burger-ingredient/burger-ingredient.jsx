@@ -1,5 +1,9 @@
 import React from "react";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  CurrencyIcon,
+  Counter,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ingredientPropType } from "../../utils/prop-types";
 import ingredientStyles from "./burger-ingredient.module.css";
 
 class BurgerIngredient extends React.Component {
@@ -21,9 +25,14 @@ class BurgerIngredient extends React.Component {
           </i>
         </div>
         <h3 className={titleClass}>{ingredient.name}</h3>
+        <Counter count={1} size="default" />
       </li>
     );
   }
 }
+
+BurgerIngredient.propTypes = {
+  ingredient: ingredientPropType,
+};
 
 export default BurgerIngredient;

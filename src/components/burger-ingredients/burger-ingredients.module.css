@@ -1,10 +1,31 @@
-.categoryList {
+.list {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
+.categoryList {
+  composes: list;
+  overflow-y: auto;
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: thin;
+  max-height: 71vh;
+}
+
+.categoryList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.categoryList::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.categoryList::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border: 3px solid #8585ad;
+}
+
 .tabList {
-  composes: categoryList;
+  composes: list;
   display: flex;
 }

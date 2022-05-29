@@ -33,19 +33,37 @@
 
 .button {
   background: none;
-  color: inherit;
   display: flex;
   box-sizing: border-box;
   border: none;
-  transition: opacity 0.3s linear;
+  transition: color 0.3s linear;
   cursor: pointer;
+  color: #8585ad;
+}
+
+.buttonActive {
+  color: #f2f2f3;
 }
 
 .button:hover {
-  opacity: 0.6;
+  color: #f2f2f3;
+}
+
+.button:hover svg {
+  fill: #f2f2f3;
 }
 
 .icon {
   height: 24px;
   width: 24px;
+}
+
+.icon > svg {
+  fill: #8585ad;
+  transition: fill 0.3s linear;
+}
+
+.iconActive > svg {
+  fill: #f2f2f3;
+  transition: fill 0.3s linear;
 }

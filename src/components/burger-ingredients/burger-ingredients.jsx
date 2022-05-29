@@ -2,6 +2,9 @@ import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
+import PropTypes from "prop-types";
+import { ingredientPropType } from "../../utils/prop-types";
+import { Link } from "react-scroll";
 
 class BurgerIngredients extends React.Component {
   constructor(props) {
@@ -25,7 +28,7 @@ class BurgerIngredients extends React.Component {
       sauce: "Соусы",
       main: "Начинки",
     };
-    const tabList = Object.keys(categoryNames);
+    const categoryTypeList = Object.keys(categoryNames);
     const { ingredients } = this.props;
 
     return (
@@ -35,26 +38,35 @@ class BurgerIngredients extends React.Component {
         </h1>
         <nav className="mb-10">
           <ul className={ingredientsStyle.tabList}>
-            {tabList.map((tab, index) => (
-              <li key={index + tabList.length}>
-                <Tab
-                  key={index}
-                  value={tab}
-                  active={this.state.current === tab}
-                  onClick={this.setCurrentTab}
+            {categoryTypeList.map((type, index) => (
+              <li key={index}>
+                <Link
+                  key={index + 10}
+                  to={type}
+                  spy={true}
+                  smooth={true}
+                  containerId="categories"
                 >
-                  {categoryNames[tab]}
-                </Tab>
+                  <Tab
+                    key={index + 100}
+                    value={type}
+                    active={this.state.current === type}
+                    onClick={this.setCurrentTab}
+                  >
+                    {categoryNames[type]}
+                  </Tab>
+                </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <ul className={ingredientsStyle.categoryList}>
-          {tabList.map((tab, index) => (
+        <ul id="categories" className={ingredientsStyle.categoryList}>
+          {categoryTypeList.map((type, index) => (
             <IngredientsCategory
               key={index}
-              title={categoryNames[tab]}
-              ingredients={this.getFilteredIngredientsList(ingredients, tab)}
+              id={type}
+              title={categoryNames[type]}
+              ingredients={this.getFilteredIngredientsList(ingredients, type)}
             />
           ))}
         </ul>
@@ -62,5 +74,9 @@ class BurgerIngredients extends React.Component {
     );
   }
 }
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientPropType),
+};
 
 export default BurgerIngredients;

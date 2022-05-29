@@ -10,7 +10,9 @@ import headerStyles from "./app-header.module.css";
 class AppHeader extends React.Component {
   render() {
     const buttonClass = `${headerStyles.button} text text_type_main-default pt-4 pl-5 pb-4 pr-5`;
+    const buttonActiveClass = `${buttonClass} ${headerStyles.buttonActive}`;
     const iconClass = `${headerStyles.icon} mr-2`;
+    const iconActiveClass = `${iconClass} ${headerStyles.iconActive}`;
     const listItemClass = `${headerStyles.listItem} mt-4 mb-4`;
 
     return (
@@ -22,8 +24,8 @@ class AppHeader extends React.Component {
           <nav>
             <ul className={headerStyles.list}>
               <li className={listItemClass}>
-                <button className={buttonClass}>
-                  <i className={iconClass}>
+                <button className={buttonActiveClass}>
+                  <i className={iconActiveClass}>
                     <BurgerIcon />
                   </i>
                   Конструктор
