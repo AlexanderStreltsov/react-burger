@@ -1,79 +1,66 @@
-import React from "react";
+import { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
+import { createRandomKey } from "../../utils/create-random-key";
 import { Link } from "react-scroll";
 
-class BurgerIngredients extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      current: "bun",
-    };
-  }
+const BurgerIngredients = ({ ingredients }) => {
+  const [current, setCurrent] = useState("bun");
 
-  setCurrentTab = (evt) => {
-    this.setState({ current: evt });
+  const categoryNames = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main: "Начинки",
+  };
+  const categoryTypeList = Object.keys(categoryNames);
+
+  const getFilteredIngredientsList = (ingredients, type) => {
+    return ingredients.filter((item) => item.type === type);
   };
 
-  getFilteredIngredientsList(ingredients, type) {
-    return ingredients.filter((item) => item.type === type);
-  }
-
-  render() {
-    const categoryNames = {
-      bun: "Булки",
-      sauce: "Соусы",
-      main: "Начинки",
-    };
-    const categoryTypeList = Object.keys(categoryNames);
-    const { ingredients } = this.props;
-
-    return (
-      <section>
-        <h1 className="text text_type_main-large mt-10 mb-5">
-          Соберите бургер
-        </h1>
-        <nav className="mb-10">
-          <ul className={ingredientsStyle.tabList}>
-            {categoryTypeList.map((type, index) => (
-              <li key={index}>
-                <Link
-                  key={index + 10}
-                  to={type}
-                  spy={true}
-                  smooth={true}
-                  containerId="categories"
+  return (
+    <section>
+      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+      <nav className="mb-10">
+        <ul className={ingredientsStyle.tabList}>
+          {categoryTypeList.map((type) => (
+            <li key={createRandomKey()}>
+              <Link
+                key={createRandomKey()}
+                to={type}
+                spy={true}
+                smooth={true}
+                containerId="categories"
+              >
+                <Tab
+                  key={createRandomKey()}
+                  value={type}
+                  active={current === type}
+                  onClick={(evt) => setCurrent(evt)}
                 >
-                  <Tab
-                    key={index + 100}
-                    value={type}
-                    active={this.state.current === type}
-                    onClick={this.setCurrentTab}
-                  >
-                    {categoryNames[type]}
-                  </Tab>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <ul id="categories" className={ingredientsStyle.categoryList}>
-          {categoryTypeList.map((type, index) => (
-            <IngredientsCategory
-              key={index}
-              id={type}
-              title={categoryNames[type]}
-              ingredients={this.getFilteredIngredientsList(ingredients, type)}
-            />
+                  {categoryNames[type]}
+                </Tab>
+              </Link>
+            </li>
           ))}
         </ul>
-      </section>
-    );
-  }
-}
+      </nav>
+      <ul id="categories" className={ingredientsStyle.categoryList}>
+        {categoryTypeList.map((type) => (
+          <IngredientsCategory
+            key={createRandomKey()}
+            id={type}
+            title={categoryNames[type]}
+            ingredients={getFilteredIngredientsList(ingredients, type)}
+          />
+        ))}
+      </ul>
+    </section>
+  );
+};
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
