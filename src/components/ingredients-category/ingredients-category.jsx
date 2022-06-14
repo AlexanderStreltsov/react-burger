@@ -24,7 +24,7 @@ class IngredientsCategory extends React.Component {
 
 IngredientsCategory.propTypes = {
   title: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(ingredientPropType),
+  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
   id: PropTypes.string.isRequired,
 };
 
