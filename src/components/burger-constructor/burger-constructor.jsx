@@ -64,6 +64,7 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
 
 BurgerConstructor.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+  handleCreateOrder: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

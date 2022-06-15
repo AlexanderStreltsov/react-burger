@@ -1,4 +1,5 @@
 import detailsStyles from "./ingredient-details.module.css";
+import { ingredientPropType } from "../../utils/prop-types";
 
 const IngredientDetails = ({ ingredient }) => {
   const { name, image_large, calories, carbohydrates, fat, proteins } =
@@ -31,6 +32,10 @@ const IngredientDetails = ({ ingredient }) => {
       </ul>
     </div>
   );
+};
+
+IngredientDetails.propTypes = {
+  ingredient: ingredientPropType,
 };
 
 export default IngredientDetails;

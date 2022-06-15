@@ -26,6 +26,7 @@ IngredientsCategory.propTypes = {
   title: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
   id: PropTypes.string.isRequired,
+  onClickIngredient: PropTypes.func.isRequired,
 };
 
 export default IngredientsCategory;

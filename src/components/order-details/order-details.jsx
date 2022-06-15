@@ -1,4 +1,5 @@
 import detailsStyles from "./order-details.module.css";
+import PropTypes from "prop-types";
 import orderImagePath from "../../images/order.svg";
 
 const OrderDetails = ({ order }) => {
@@ -23,6 +24,10 @@ const OrderDetails = ({ order }) => {
       </p>
     </div>
   );
+};
+
+OrderDetails.propTypes = {
+  order: PropTypes.string.isRequired,
 };
 
 export default OrderDetails;
