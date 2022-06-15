@@ -8,7 +8,7 @@ import { ingredientPropType } from "../../utils/prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import { createRandomKey } from "../../utils/create-random-key";
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
   const ingredient = ingredients.find(
     (ingredient) => ingredient.type === "bun"
   );
@@ -54,7 +54,7 @@ const BurgerConstructor = ({ ingredients }) => {
             <CurrencyIcon />
           </i>
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handleCreateOrder}>
           Оформить заказ
         </Button>
       </div>

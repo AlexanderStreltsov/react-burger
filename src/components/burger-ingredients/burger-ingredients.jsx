@@ -7,7 +7,7 @@ import { ingredientPropType } from "../../utils/prop-types";
 import { createRandomKey } from "../../utils/create-random-key";
 import { Link } from "react-scroll";
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
   const [current, setCurrent] = useState("bun");
 
   const categoryNames = {
@@ -55,6 +55,7 @@ const BurgerIngredients = ({ ingredients }) => {
             id={type}
             title={categoryNames[type]}
             ingredients={getFilteredIngredientsList(ingredients, type)}
+            onClickIngredient={onClickIngredient}
           />
         ))}
       </ul>

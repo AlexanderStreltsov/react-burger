@@ -5,12 +5,15 @@ import {
 import { ingredientPropType } from "../../utils/prop-types";
 import ingredientStyles from "./burger-ingredient.module.css";
 
-const BurgerIngredient = ({ ingredient }) => {
+const BurgerIngredient = ({ ingredient, onClickIngredient }) => {
   const priceClass = `${ingredientStyles.price} text text_type_digits-default mt-2 mb-2`;
   const titleClass = `${ingredientStyles.title} text text_type_main-default`;
 
   return (
-    <li className={ingredientStyles.ingredient}>
+    <li
+      className={ingredientStyles.ingredient}
+      onClick={() => onClickIngredient(ingredient)}
+    >
       <img
         src={ingredient.image}
         alt={ingredient.name}

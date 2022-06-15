@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 import categoryStyles from "./ingredients-category.module.css";
 
-const IngredientsCategory = ({ title, ingredients, id }) => {
+const IngredientsCategory = ({ title, ingredients, id, onClickIngredient }) => {
   return (
     <li>
       <h2 id={id} className="text text_type_main-medium">
@@ -11,7 +11,11 @@ const IngredientsCategory = ({ title, ingredients, id }) => {
       </h2>
       <ul className={categoryStyles.list}>
         {ingredients.map((ingredient) => (
-          <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+          <BurgerIngredient
+            key={ingredient._id}
+            ingredient={ingredient}
+            onClickIngredient={onClickIngredient}
+          />
         ))}
       </ul>
     </li>
