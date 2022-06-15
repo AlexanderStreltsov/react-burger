@@ -1,5 +1,5 @@
 .section {
-  padding: 100px 16px 40px;
+  padding: 100px 16px 40px 8px;
 }
 
 .wrapper {
@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
+  width: 100%;
 }
 
 .wrapper div {
@@ -41,6 +42,8 @@
 
 .listItem {
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .listItem > div {
@@ -62,4 +65,11 @@
 .icon > svg {
   height: 36px;
   width: 36px;
+}
+
+.dragIcon,
+.dragIcon > svg {
+  height: 24px;
+  width: 24px;
+  margin-right: 6px;
 }
