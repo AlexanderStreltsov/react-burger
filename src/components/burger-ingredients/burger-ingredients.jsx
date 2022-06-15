@@ -28,15 +28,8 @@ const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
         <ul className={ingredientsStyle.tabList}>
           {categoryTypeList.map((type) => (
             <li key={createRandomKey()}>
-              <Link
-                key={createRandomKey()}
-                to={type}
-                spy={true}
-                smooth={true}
-                containerId="categories"
-              >
+              <Link to={type} spy={true} smooth={true} containerId="categories">
                 <Tab
-                  key={createRandomKey()}
                   value={type}
                   active={current === type}
                   onClick={(evt) => setCurrent(evt)}

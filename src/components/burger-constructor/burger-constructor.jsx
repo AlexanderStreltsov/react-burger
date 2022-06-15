@@ -36,8 +36,8 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
         <ul className={constructorStyles.list}>
           {ingrdientsWithoutBun.map((item) => (
             <li key={createRandomKey()} className={constructorStyles.listItem}>
-              <i key={createRandomKey()} className={constructorStyles.dragIcon}>
-                <DragIcon key={createRandomKey()} />
+              <i className={constructorStyles.dragIcon}>
+                <DragIcon />
               </i>
               <ConstructorElement
                 key={item._id}
