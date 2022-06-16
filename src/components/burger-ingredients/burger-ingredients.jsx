@@ -4,7 +4,6 @@ import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
-import { createRandomKey } from "../../utils/create-random-key";
 import { Link } from "react-scroll";
 
 const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
@@ -27,7 +26,7 @@ const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
       <nav className="mb-10">
         <ul className={ingredientsStyle.tabList}>
           {categoryTypeList.map((type) => (
-            <li key={createRandomKey()}>
+            <li key={type}>
               <Link to={type} spy={true} smooth={true} containerId="categories">
                 <Tab
                   value={type}
@@ -44,7 +43,7 @@ const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
       <ul id="categories" className={ingredientsStyle.categoryList}>
         {categoryTypeList.map((type) => (
           <IngredientsCategory
-            key={createRandomKey()}
+            key={type}
             id={type}
             title={categoryNames[type]}
             ingredients={getFilteredIngredientsList(ingredients, type)}
