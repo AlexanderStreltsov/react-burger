@@ -1,0 +1,28 @@
+.modal {
+  box-sizing: border-box;
+  border-radius: 40px;
+  width: 720px;
+  background-color: #1c1c21;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 1;
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.icon {
+  display: flex;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+}

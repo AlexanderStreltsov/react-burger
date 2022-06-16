@@ -1,0 +1,69 @@
+.header {
+  background-color: #1c1c21;
+  min-width: 1280px;
+}
+
+.wrapper {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo {
+  height: 50px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content max-content minmax(max-content, 1fr);
+  column-gap: 8px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  background: none;
+  display: flex;
+  box-sizing: border-box;
+  border: none;
+  transition: color 0.3s linear;
+  cursor: pointer;
+  color: #8585ad;
+}
+
+.buttonActive {
+  color: #f2f2f3;
+}
+
+.button:hover {
+  color: #f2f2f3;
+}
+
+.button:hover svg {
+  fill: #f2f2f3;
+}
+
+.icon {
+  height: 24px;
+  width: 24px;
+}
+
+.icon > svg {
+  fill: #8585ad;
+  transition: fill 0.3s linear;
+}
+
+.iconActive > svg {
+  fill: #f2f2f3;
+  transition: fill 0.3s linear;
+}
