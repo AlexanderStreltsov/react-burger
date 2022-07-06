@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   ConstructorElement,
   Button,
@@ -5,23 +6,49 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import { createRandomKey } from "../../utils/create-random-key";
+import BurgerIngredientsContext from "../../context/burger-ingredients-context";
+import BurgerConstructorContext from "../../context/burger-constructor-context";
+import { apiOrders } from "../../utils/constants";
 
-const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
+const BurgerConstructor = ({ setOrderDetailsOpened }) => {
+  const ingredients = useContext(BurgerIngredientsContext);
+  const { setOrder } = useContext(BurgerConstructorContext);
+
   const ingredientBun = ingredients.find(
     (ingredient) => ingredient.type === "bun"
   );
   const ingrdientsWithoutBun = ingredients.filter(
     (ingredient) => ingredient.type !== "bun"
   );
-  const sum =
+  const totalPrice =
     ingrdientsWithoutBun.reduce(
       (acc, ingredient) => ingredient.price + acc,
       0
     ) +
     ingredientBun.price * 2;
+
+  const ingredientsInConstructorId = ingrdientsWithoutBun.map(
+    (item) => item._id
+  );
+  ingredientsInConstructorId.push(ingredientBun._id);
+
+  const handleCreateOrder = () => {
+    fetch(apiOrders, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({
+        ingredients: ingredientsInConstructorId,
+      }),
+    })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((data) => {
+        setOrder(data.order.number);
+        setOrderDetailsOpened(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <section className={constructorStyles.section}>
@@ -58,7 +85,7 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
       </div>
       <div className={`${constructorStyles.orderWrapper} mt-10`}>
         <div className={constructorStyles.priceWrapper}>
-          <p className="text text_type_digits-medium">{sum}</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <i className={`${constructorStyles.icon} ml-2`}>
             <CurrencyIcon />
           </i>
@@ -72,8 +99,7 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  handleCreateOrder: PropTypes.func.isRequired,
+  setOrderDetailsOpened: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

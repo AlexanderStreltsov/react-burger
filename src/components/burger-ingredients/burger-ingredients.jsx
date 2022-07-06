@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import { Link } from "react-scroll";
+import BurgerIngredientsContext from "../../context/burger-ingredients-context";
 
-const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
+const BurgerIngredients = ({ onClickIngredient }) => {
   const [current, setCurrent] = useState("bun");
+  const ingredients = useContext(BurgerIngredientsContext);
 
   const categoryNames = {
     bun: "Булки",
@@ -56,7 +57,6 @@ const BurgerIngredients = ({ ingredients, onClickIngredient }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
   onClickIngredient: PropTypes.func.isRequired,
 };
 
