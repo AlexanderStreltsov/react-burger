@@ -7,8 +7,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
-import BurgerIngredientsContext from "../../context/burger-ingredients-context";
-import BurgerConstructorContext from "../../context/burger-constructor-context";
+import BurgerIngredientsContext from "../../services/burger-ingredients-context";
+import BurgerConstructorContext from "../../services/burger-constructor-context";
 import { saveOrder } from "../../utils/api";
 
 const BurgerConstructor = ({ setOrderDetailsOpened }) => {

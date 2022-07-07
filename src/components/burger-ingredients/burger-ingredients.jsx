@@ -4,7 +4,7 @@ import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import PropTypes from "prop-types";
 import { Link } from "react-scroll";
-import BurgerIngredientsContext from "../../context/burger-ingredients-context";
+import BurgerIngredientsContext from "../../services/burger-ingredients-context";
 
 const BurgerIngredients = ({ onClickIngredient }) => {
   const [current, setCurrent] = useState("bun");

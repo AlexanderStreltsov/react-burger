@@ -8,8 +8,8 @@ import Spinner from "../spinner/spinner";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-import BurgerIngredientsContext from "../../context/burger-ingredients-context";
-import BurgerConstructorContext from "../../context/burger-constructor-context";
+import BurgerIngredientsContext from "../../services/burger-ingredients-context";
+import BurgerConstructorContext from "../../services/burger-constructor-context";
 
 const App = () => {
   const [ingredients, setIngredients] = useState(null);
