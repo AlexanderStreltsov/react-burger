@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import {
   ConstructorElement,
   Button,
@@ -7,10 +7,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
-import { createRandomKey } from "../../utils/create-random-key";
 import BurgerIngredientsContext from "../../context/burger-ingredients-context";
 import BurgerConstructorContext from "../../context/burger-constructor-context";
-import { apiOrders } from "../../utils/constants";
+import { saveOrder } from "../../utils/api";
 
 const BurgerConstructor = ({ setOrderDetailsOpened }) => {
   const ingredients = useContext(BurgerIngredientsContext);
@@ -22,27 +21,29 @@ const BurgerConstructor = ({ setOrderDetailsOpened }) => {
   const ingrdientsWithoutBun = ingredients.filter(
     (ingredient) => ingredient.type !== "bun"
   );
-  const totalPrice =
-    ingrdientsWithoutBun.reduce(
-      (acc, ingredient) => ingredient.price + acc,
-      0
-    ) +
-    ingredientBun.price * 2;
 
-  const ingredientsInConstructorId = ingrdientsWithoutBun.map(
-    (item) => item._id
-  );
-  ingredientsInConstructorId.push(ingredientBun._id);
+  const totalPrice = useMemo(() => {
+    return (
+      ingrdientsWithoutBun.reduce(
+        (acc, ingredient) => ingredient.price + acc,
+        0
+      ) +
+      ingredientBun.price * 2
+    );
+  }, [ingredientBun, ingrdientsWithoutBun]);
+
+  const ingredientsInConstructorId = useMemo(() => {
+    return ingrdientsWithoutBun.reduce(
+      (acc, ingredient) => {
+        acc.splice(-1, 0, ingredient._id);
+        return acc;
+      },
+      [ingredientBun._id, ingredientBun._id]
+    );
+  }, [ingredientBun, ingrdientsWithoutBun]);
 
   const handleCreateOrder = () => {
-    fetch(apiOrders, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify({
-        ingredients: ingredientsInConstructorId,
-      }),
-    })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+    saveOrder(ingredientsInConstructorId)
       .then((data) => {
         setOrder(data.order.number);
         setOrderDetailsOpened(true);
@@ -61,8 +62,8 @@ const BurgerConstructor = ({ setOrderDetailsOpened }) => {
           thumbnail={ingredientBun.image}
         />
         <ul className={constructorStyles.list}>
-          {ingrdientsWithoutBun.map((item) => (
-            <li key={createRandomKey()} className={constructorStyles.listItem}>
+          {ingrdientsWithoutBun.map((item, index) => (
+            <li key={index} className={constructorStyles.listItem}>
               <i className={constructorStyles.dragIcon}>
                 <DragIcon />
               </i>
