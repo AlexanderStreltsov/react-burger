@@ -7,14 +7,14 @@ import modalStyles from "./modal.module.css";
 
 const modalsContainer = document.querySelector("#modals");
 
-const Modal = ({ title, handleCloseModals, handleEscKey, children }) => {
+const Modal = ({ title, handleCloseModals, children }) => {
   useEffect(() => {
+    const handleEscKey = (evt) => evt.key === "Escape" && handleCloseModals();
     document.addEventListener("keydown", handleEscKey);
-
     return () => {
       document.removeEventListener("keydown", handleEscKey);
     };
-  }, [handleEscKey]);
+  }, [handleCloseModals]);
 
   return ReactDOM.createPortal(
     <>
@@ -36,7 +36,6 @@ const Modal = ({ title, handleCloseModals, handleEscKey, children }) => {
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
   handleCloseModals: PropTypes.func.isRequired,
-  handleEscKey: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
 

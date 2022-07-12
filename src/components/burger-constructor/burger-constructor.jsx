@@ -1,3 +1,4 @@
+import { useContext, useMemo } from "react";
 import {
   ConstructorElement,
   Button,
@@ -5,23 +6,50 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { ingredientPropType } from "../../utils/prop-types";
 import constructorStyles from "./burger-constructor.module.css";
-import { createRandomKey } from "../../utils/create-random-key";
+import BurgerIngredientsContext from "../../services/burger-ingredients-context";
+import BurgerConstructorContext from "../../services/burger-constructor-context";
+import { saveOrder } from "../../utils/api";
 
-const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
+const BurgerConstructor = ({ setOrderDetailsOpened }) => {
+  const ingredients = useContext(BurgerIngredientsContext);
+  const { setOrder } = useContext(BurgerConstructorContext);
+
   const ingredientBun = ingredients.find(
     (ingredient) => ingredient.type === "bun"
   );
   const ingrdientsWithoutBun = ingredients.filter(
     (ingredient) => ingredient.type !== "bun"
   );
-  const sum =
-    ingrdientsWithoutBun.reduce(
-      (acc, ingredient) => ingredient.price + acc,
-      0
-    ) +
-    ingredientBun.price * 2;
+
+  const totalPrice = useMemo(() => {
+    return (
+      ingrdientsWithoutBun.reduce(
+        (acc, ingredient) => ingredient.price + acc,
+        0
+      ) +
+      ingredientBun.price * 2
+    );
+  }, [ingredientBun, ingrdientsWithoutBun]);
+
+  const ingredientsInConstructorId = useMemo(() => {
+    return ingrdientsWithoutBun.reduce(
+      (acc, ingredient) => {
+        acc.splice(-1, 0, ingredient._id);
+        return acc;
+      },
+      [ingredientBun._id, ingredientBun._id]
+    );
+  }, [ingredientBun, ingrdientsWithoutBun]);
+
+  const handleCreateOrder = () => {
+    saveOrder(ingredientsInConstructorId)
+      .then((data) => {
+        setOrder(data.order.number);
+        setOrderDetailsOpened(true);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <section className={constructorStyles.section}>
@@ -34,8 +62,8 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
           thumbnail={ingredientBun.image}
         />
         <ul className={constructorStyles.list}>
-          {ingrdientsWithoutBun.map((item) => (
-            <li key={createRandomKey()} className={constructorStyles.listItem}>
+          {ingrdientsWithoutBun.map((item, index) => (
+            <li key={index} className={constructorStyles.listItem}>
               <i className={constructorStyles.dragIcon}>
                 <DragIcon />
               </i>
@@ -58,7 +86,7 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
       </div>
       <div className={`${constructorStyles.orderWrapper} mt-10`}>
         <div className={constructorStyles.priceWrapper}>
-          <p className="text text_type_digits-medium">{sum}</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <i className={`${constructorStyles.icon} ml-2`}>
             <CurrencyIcon />
           </i>
@@ -72,8 +100,7 @@ const BurgerConstructor = ({ ingredients, handleCreateOrder }) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  handleCreateOrder: PropTypes.func.isRequired,
+  setOrderDetailsOpened: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;
