@@ -1,7 +1,10 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
-import { setIngredientModal } from "../../services/actions/ingredient-details";
+import {
+  setIngredientModal,
+  loadImage,
+} from "../../services/actions/ingredient-details";
 import {
   CurrencyIcon,
   Counter,
@@ -34,10 +37,15 @@ const BurgerIngredient = ({ ingredient }) => {
   const priceClass = `${ingredientStyles.price} text text_type_digits-default mt-2 mb-2`;
   const titleClass = `${ingredientStyles.title} text text_type_main-default`;
 
+  const handleIngredientClick = () => {
+    dispatch(loadImage(true));
+    dispatch(setIngredientModal(ingredient));
+  };
+
   return (
     <li
       className={ingredientStyles.ingredient}
-      onClick={() => dispatch(setIngredientModal(ingredient))}
+      onClick={handleIngredientClick}
       ref={dragRef}
       style={{ opacity }}
     >
