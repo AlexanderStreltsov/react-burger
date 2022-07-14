@@ -4,8 +4,8 @@ import elementStyles from "./burger-empty-element.module.css";
 const BurgerEmptyElement = ({ top = false, bottom = false }) => {
   const title =
     top || bottom
-      ? "Перенесите выбранную булку"
-      : "Перенесите выбранные начинки или соусы";
+      ? "Переместите выбранную булку"
+      : "Переместите выбранные начинки или соусы";
 
   return (
     <div

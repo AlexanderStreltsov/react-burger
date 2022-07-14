@@ -22,7 +22,6 @@ export const getIngredientsAction = () => (dispatch) => {
         type: GET_INGREDIENTS_FAILED,
         payload: err,
       });
-      console.log(err);
     });
 };
 

@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RESET_INGREDIENT_MODAL } from "../../services/actions/ingredient-details";
+import { RESET_ORDER_MODAL } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from "../app-header/app-header";
@@ -17,11 +17,11 @@ const App = () => {
   const isIngredientDetailsOpened = useSelector(
     (store) => store.details.isOpen
   );
-  const [isOrderDetailsOpened, setOrderDetailsOpened] = useState(false);
-  const [order, setOrder] = useState(null);
+  const isOrderDetailsOpened = useSelector((store) => store.order.isOpen);
 
   const handleCloseModals = () => {
     dispatch({ type: RESET_INGREDIENT_MODAL });
+    dispatch({ type: RESET_ORDER_MODAL });
   };
 
   return (
@@ -43,8 +43,8 @@ const App = () => {
       )}
 
       {isOrderDetailsOpened && (
-        <Modal title="" handleCloseModals={handleCloseModals}>
-          <OrderDetails order={order} />
+        <Modal handleCloseModals={handleCloseModals}>
+          <OrderDetails />
         </Modal>
       )}
     </>
