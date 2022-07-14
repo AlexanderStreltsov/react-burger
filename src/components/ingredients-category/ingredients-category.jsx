@@ -3,19 +3,30 @@ import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
 import categoryStyles from "./ingredients-category.module.css";
 
-const IngredientsCategory = ({ title, ingredients, id, onClickIngredient }) => {
+const IngredientsCategory = ({
+  ingredients,
+  id,
+  categoryNames,
+  bunRef,
+  sauceRef,
+  mainRef,
+}) => {
   return (
-    <li>
+    <li
+      ref={
+        categoryNames[id] === categoryNames.bun
+          ? bunRef
+          : categoryNames[id] === categoryNames.sauce
+          ? sauceRef
+          : mainRef
+      }
+    >
       <h2 id={id} className="text text_type_main-medium">
-        {title}
+        {categoryNames[id]}
       </h2>
       <ul className={categoryStyles.list}>
         {ingredients.map((ingredient) => (
-          <BurgerIngredient
-            key={ingredient._id}
-            ingredient={ingredient}
-            onClickIngredient={onClickIngredient}
-          />
+          <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
         ))}
       </ul>
     </li>
@@ -23,10 +34,12 @@ const IngredientsCategory = ({ title, ingredients, id, onClickIngredient }) => {
 };
 
 IngredientsCategory.propTypes = {
-  title: PropTypes.string.isRequired,
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
   id: PropTypes.string.isRequired,
-  onClickIngredient: PropTypes.func.isRequired,
+  categoryNames: PropTypes.object.isRequired,
+  bunRef: PropTypes.func.isRequired,
+  sauceRef: PropTypes.func.isRequired,
+  mainRef: PropTypes.func.isRequired,
 };
 
 export default IngredientsCategory;

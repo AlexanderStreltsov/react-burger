@@ -1,14 +1,29 @@
 import detailsStyles from "./ingredient-details.module.css";
-import { ingredientPropType } from "../../utils/prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { loadImage } from "../../services/actions/ingredient-details";
+import Spinner from "../spinner/spinner";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const dispatch = useDispatch();
+
+  const ingredient = useSelector((store) => store.details.ingredient);
+  const isLoading = useSelector((store) => store.details.isLoading);
+
   const { name, image_large, calories, carbohydrates, fat, proteins } =
     ingredient;
   const detailTitleClass = "text text_type_main-default text_color_inactive";
   const detailValueClass = "text text_type_digits-default text_color_inactive";
+
   return (
     <div className={detailsStyles.details}>
-      <img src={image_large} alt={name} className={detailsStyles.image} />
+      {isLoading && <Spinner />}
+      <img
+        src={image_large}
+        alt={name}
+        className={detailsStyles.image}
+        onLoad={() => dispatch(loadImage(false))}
+        style={!isLoading ? { display: "flex" } : { display: "none" }}
+      />
       <h2 className={`${detailsStyles.title} mt-4 text text_type_main-medium`}>
         {name}
       </h2>
@@ -32,10 +47,6 @@ const IngredientDetails = ({ ingredient }) => {
       </ul>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType,
 };
 
 export default IngredientDetails;

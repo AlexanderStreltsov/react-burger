@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux";
 import detailsStyles from "./order-details.module.css";
-import PropTypes from "prop-types";
 import orderImagePath from "../../images/order.svg";
 
-const OrderDetails = ({ order }) => {
+const OrderDetails = () => {
+  const order = useSelector((store) => store.order.order);
+
   return (
     <div className={detailsStyles.details}>
       <h2
@@ -24,10 +26,6 @@ const OrderDetails = ({ order }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  order: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

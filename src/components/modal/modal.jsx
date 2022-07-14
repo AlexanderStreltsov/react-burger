@@ -7,7 +7,7 @@ import modalStyles from "./modal.module.css";
 
 const modalsContainer = document.querySelector("#modals");
 
-const Modal = ({ title, handleCloseModals, children }) => {
+const Modal = ({ title = "", handleCloseModals, children }) => {
   useEffect(() => {
     const handleEscKey = (evt) => evt.key === "Escape" && handleCloseModals();
     document.addEventListener("keydown", handleEscKey);
@@ -34,7 +34,7 @@ const Modal = ({ title, handleCloseModals, children }) => {
 };
 
 Modal.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   handleCloseModals: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
 };
