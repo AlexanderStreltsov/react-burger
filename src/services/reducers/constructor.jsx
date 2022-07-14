@@ -1,6 +1,7 @@
 import {
   ADD_INGREDIENT_CONSTRUCTOR,
   DELETE_INGREDIENT_CONSTRUCTOR,
+  SORT_INGREDIENT_CONSTRUCTOR,
   RESET_CONSTRUCTOR,
 } from "../actions/constructor";
 
@@ -28,6 +29,18 @@ export const constructorReducer = (state = initialState, action) => {
           ...state.ingredients.slice(0, action.payload),
           ...state.ingredients.slice(action.payload + 1),
         ],
+      };
+    }
+    case SORT_INGREDIENT_CONSTRUCTOR: {
+      const ingredients = [...state.ingredients];
+      ingredients.splice(
+        action.payload.to,
+        0,
+        ingredients.splice(action.payload.from, 1)[0]
+      );
+      return {
+        ...state,
+        ingredients,
       };
     }
     case RESET_CONSTRUCTOR: {

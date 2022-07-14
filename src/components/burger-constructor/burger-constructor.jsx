@@ -5,14 +5,12 @@ import {
   ConstructorElement,
   Button,
   CurrencyIcon,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import constructorStyles from "./burger-constructor.module.css";
-import {
-  addConstructor,
-  deleteConstructor,
-} from "../../services/actions/constructor";
+import { addConstructor } from "../../services/actions/constructor";
 import BurgerEmptyElement from "../burger-empty-element/burger-empty-element";
+import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
+import { dragDropTypes } from "../../utils/drag-drop-types";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -25,14 +23,11 @@ const BurgerConstructor = () => {
   const isIngredients = ingredients.length > 0;
   const isBun = Object.keys(bun).length > 0;
 
-  const [{ isHover }, dropTarget] = useDrop({
-    accept: "NEW_INGREDIENT",
+  const [, dropTarget] = useDrop({
+    accept: dragDropTypes.new,
     drop(ingredient) {
       dispatch(addConstructor(ingredient));
     },
-    collect: (monitor) => ({
-      isHover: monitor.isOver(),
-    }),
   });
 
   const totalPrice = useMemo(() => {
@@ -79,21 +74,12 @@ const BurgerConstructor = () => {
         )}
         {isIngredients ? (
           <ul className={constructorStyles.list}>
-            {ingredients.map((item, index) => (
-              <li key={index} className={constructorStyles.listItem}>
-                <i className={constructorStyles.dragIcon}>
-                  <DragIcon />
-                </i>
-                <ConstructorElement
-                  key={item._id}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                  handleClose={() => {
-                    dispatch(deleteConstructor(index));
-                  }}
-                />
-              </li>
+            {ingredients.map((ingredient, index) => (
+              <BurgerConstructorElement
+                key={ingredient.id}
+                index={index}
+                ingredient={ingredient}
+              />
             ))}
           </ul>
         ) : (

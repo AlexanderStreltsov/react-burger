@@ -5,7 +5,7 @@ const BurgerEmptyElement = ({ top = false, bottom = false }) => {
   const title =
     top || bottom
       ? "Перенесите выбранную булку"
-      : "Перенесите выбранную начинку";
+      : "Перенесите выбранные начинки или соусы";
 
   return (
     <div

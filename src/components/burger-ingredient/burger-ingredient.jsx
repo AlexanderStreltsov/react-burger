@@ -11,6 +11,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropType } from "../../utils/prop-types";
 import ingredientStyles from "./burger-ingredient.module.css";
+import { dragDropTypes } from "../../utils/drag-drop-types";
 
 const BurgerIngredient = ({ ingredient }) => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const BurgerIngredient = ({ ingredient }) => {
   }, [ingredientsConstructor, bunConstructor, ingredient]);
 
   const [{ opacity }, dragRef] = useDrag({
-    type: "NEW_INGREDIENT",
+    type: dragDropTypes.new,
     item: { ingredient },
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.25 : 1,

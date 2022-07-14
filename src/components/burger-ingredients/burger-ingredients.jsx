@@ -57,11 +57,7 @@ const BurgerIngredients = () => {
           {categoryTypeList.map((type) => (
             <li key={type}>
               <Link to={type} spy={true} smooth={true} containerId="categories">
-                <Tab
-                  value={type}
-                  active={currentTab === type}
-                  onClick={(evt) => dispatch(setCurrentTab(evt))}
-                >
+                <Tab value={type} active={currentTab === type}>
                   {categoryNames[type]}
                 </Tab>
               </Link>

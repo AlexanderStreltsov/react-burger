@@ -1,0 +1,16 @@
+.listItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.listItem > div {
+  width: 100%;
+}
+
+.dragIcon,
+.dragIcon > svg {
+  height: 24px;
+  width: 24px;
+  margin-right: 6px;
+}
