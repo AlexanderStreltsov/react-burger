@@ -12,6 +12,7 @@ import {
   addConstructor,
   deleteConstructor,
 } from "../../services/actions/constructor";
+import BurgerEmptyElement from "../burger-empty-element/burger-empty-element";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -64,12 +65,8 @@ const BurgerConstructor = () => {
 
   return (
     <section className={constructorStyles.section}>
-      <div
-        className={constructorStyles.wrapper}
-        ref={dropTarget}
-        style={{ minHeight: "100px" }}
-      >
-        {isBun && (
+      <div className={constructorStyles.wrapper} ref={dropTarget}>
+        {isBun ? (
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -77,8 +74,10 @@ const BurgerConstructor = () => {
             price={bun.price}
             thumbnail={bun.image}
           />
+        ) : (
+          <BurgerEmptyElement top />
         )}
-        {isIngredients && (
+        {isIngredients ? (
           <ul className={constructorStyles.list}>
             {ingredients.map((item, index) => (
               <li key={index} className={constructorStyles.listItem}>
@@ -97,8 +96,10 @@ const BurgerConstructor = () => {
               </li>
             ))}
           </ul>
+        ) : (
+          <BurgerEmptyElement />
         )}
-        {isBun && (
+        {isBun ? (
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -106,6 +107,8 @@ const BurgerConstructor = () => {
             price={bun.price}
             thumbnail={bun.image}
           />
+        ) : (
+          <BurgerEmptyElement bottom />
         )}
       </div>
       <div className={`${constructorStyles.orderWrapper} mt-10`}>
