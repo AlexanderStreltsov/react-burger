@@ -1,11 +1,14 @@
 import detailsStyles from "./ingredient-details.module.css";
-import { ingredientPropType } from "../../utils/prop-types";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const ingredient = useSelector((store) => store.details.ingredient);
+
   const { name, image_large, calories, carbohydrates, fat, proteins } =
     ingredient;
   const detailTitleClass = "text text_type_main-default text_color_inactive";
   const detailValueClass = "text text_type_digits-default text_color_inactive";
+
   return (
     <div className={detailsStyles.details}>
       <img src={image_large} alt={name} className={detailsStyles.image} />
@@ -32,10 +35,6 @@ const IngredientDetails = ({ ingredient }) => {
       </ul>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropType,
 };
 
 export default IngredientDetails;
