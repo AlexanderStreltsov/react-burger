@@ -1,4 +1,4 @@
-import { createRandomKey } from "../../utils/create-random-key";
+import { v4 as uuid } from "uuid";
 
 export const ADD_INGREDIENT_CONSTRUCTOR = "ADD_INGREDIENT_CONSTRUCTOR";
 export const DELETE_INGREDIENT_CONSTRUCTOR = "DELETE_INGREDIENT_CONSTRUCTOR";
@@ -10,7 +10,7 @@ export const addConstructor = (ingredient) => {
     type: ADD_INGREDIENT_CONSTRUCTOR,
     payload: {
       ...ingredient.ingredient,
-      id: createRandomKey(),
+      id: uuid(),
     },
   };
 };

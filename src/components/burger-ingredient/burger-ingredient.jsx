@@ -22,9 +22,10 @@ const BurgerIngredient = ({ ingredient }) => {
   const bunConstructor = useSelector((store) => store.burgerConstructor.bun);
 
   const countIngredientConstructor = useMemo(() => {
-    return [...ingredientsConstructor, bunConstructor].filter(
+    const count = [...ingredientsConstructor, bunConstructor].filter(
       (item) => item._id === ingredient._id
     ).length;
+    return ingredient.type === "bun" ? count * 2 : count;
   }, [ingredientsConstructor, bunConstructor, ingredient]);
 
   const [{ opacity }, dragRef] = useDrag({
