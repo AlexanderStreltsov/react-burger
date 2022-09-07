@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Switch, Route } from "react-router-dom";
 import { RESET_INGREDIENT_MODAL } from "../../services/actions/ingredient-details";
 import { RESET_ORDER_MODAL } from "../../services/actions/order";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from "../app-header/app-header";
 import appStyles from "./app.module.css";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
+import HomePage from "../../pages/home/home";
+import SignInPage from "../../pages/sign-in/sign-in";
+import RegistrationPage from "../../pages/registration/registration";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,10 +29,17 @@ const App = () => {
       <div className={appStyles.page}>
         <AppHeader />
         <main className={appStyles.content}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </DndProvider>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route exact path="/login">
+              <SignInPage />
+            </Route>
+            <Route exact path="/register">
+              <RegistrationPage />
+            </Route>
+          </Switch>
         </main>
       </div>
 
