@@ -27,7 +27,6 @@ const RegistrationPage = () => {
           onChange={(evt) => setLogin(evt.target.value)}
           value={login}
           name={"name"}
-          error={false}
           size={"default"}
         />
         <Input
@@ -36,7 +35,6 @@ const RegistrationPage = () => {
           onChange={(evt) => setEmail(evt.target.value)}
           value={email}
           name={"email"}
-          error={false}
           size={"default"}
         />
         <PasswordInput

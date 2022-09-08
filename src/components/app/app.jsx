@@ -10,6 +10,8 @@ import OrderDetails from "../order-details/order-details";
 import HomePage from "../../pages/home/home";
 import SignInPage from "../../pages/sign-in/sign-in";
 import RegistrationPage from "../../pages/registration/registration";
+import ResetPasswordPage from "../../pages/reset-password/reset-password";
+import ForgotPasswordPage from "../../pages/forgot-password/forgot-password";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -38,6 +40,12 @@ const App = () => {
             </Route>
             <Route exact path="/register">
               <RegistrationPage />
+            </Route>
+            <Route exact path="/forgot-password">
+              <ForgotPasswordPage />
+            </Route>
+            <Route exact path="/reset-password">
+              <ResetPasswordPage />
             </Route>
           </Switch>
         </main>

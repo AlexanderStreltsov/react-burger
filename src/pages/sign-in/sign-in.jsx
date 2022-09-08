@@ -29,7 +29,6 @@ const SignInPage = () => {
           onChange={(evt) => setEmail(evt.target.value)}
           value={email}
           name={"email"}
-          error={false}
           size={"default"}
         />
         <PasswordInput
