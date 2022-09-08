@@ -1,8 +1,4 @@
-import {
-  SET_INGREDIENT_MODAL,
-  RESET_INGREDIENT_MODAL,
-  LOAD_IMAGE,
-} from "../actions/ingredient-details";
+import { ActionTypes } from "./actions";
 
 const initialState = {
   ingredient: {},
@@ -12,20 +8,20 @@ const initialState = {
 
 export const ingredientDetailReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_INGREDIENT_MODAL: {
+    case ActionTypes.SET_MODAL: {
       return {
         ...state,
         ingredient: action.payload,
         isOpen: true,
       };
     }
-    case LOAD_IMAGE: {
+    case ActionTypes.LOAD_IMAGE: {
       return {
         ...state,
         isLoading: action.payload,
       };
     }
-    case RESET_INGREDIENT_MODAL: {
+    case ActionTypes.RESET_MODAL: {
       return initialState;
     }
     default:

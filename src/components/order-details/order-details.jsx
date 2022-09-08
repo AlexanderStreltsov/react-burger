@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
+import { getOrder } from "../../services/order/selectors";
 import detailsStyles from "./order-details.module.css";
 import orderImagePath from "../../images/order.svg";
 
 const OrderDetails = () => {
-  const order = useSelector((store) => store.order.order);
+  const order = useSelector(getOrder);
 
   return (
     <div className={detailsStyles.details}>

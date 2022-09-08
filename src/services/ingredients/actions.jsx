@@ -1,25 +1,29 @@
 import { getIngredients } from "../../utils/api";
 
-export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
-export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
-export const GET_INGREDIENTS_FAILED = "GET_INGREDIENTS_FAILED";
-export const SWITCH_TAB = "SWITCH_TAB";
+export const name = "INGREDIENTS";
+
+export const ActionTypes = {
+  GET_REQUEST: `${name}/GET_REQUEST`,
+  GET_SUCCESS: `${name}/GET_SUCCESS`,
+  GET_FAILED: `${name}/GET_FAILED`,
+  SWITCH_TAB: `${name}/SWITCH_TAB`,
+};
 
 export const getIngredientsAction = () => (dispatch) => {
   dispatch({
-    type: GET_INGREDIENTS_REQUEST,
+    type: ActionTypes.GET_REQUEST,
   });
 
   return getIngredients()
     .then((result) => {
       dispatch({
-        type: GET_INGREDIENTS_SUCCESS,
+        type: ActionTypes.GET_SUCCESS,
         payload: result.data,
       });
     })
     .catch((err) => {
       dispatch({
-        type: GET_INGREDIENTS_FAILED,
+        type: ActionTypes.GET_FAILED,
         payload: err,
       });
     });
@@ -27,7 +31,7 @@ export const getIngredientsAction = () => (dispatch) => {
 
 export const setCurrentTab = (tab) => {
   return {
-    type: SWITCH_TAB,
+    type: ActionTypes.SWITCH_TAB,
     payload: tab,
   };
 };

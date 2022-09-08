@@ -1,9 +1,4 @@
-import {
-  GET_INGREDIENTS_REQUEST,
-  GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
-  SWITCH_TAB,
-} from "../actions/ingredients";
+import { ActionTypes } from "./actions";
 
 const initialState = {
   ingredients: [],
@@ -14,13 +9,13 @@ const initialState = {
 
 export const ingredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_INGREDIENTS_REQUEST: {
+    case ActionTypes.GET_REQUEST: {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case GET_INGREDIENTS_SUCCESS: {
+    case ActionTypes.GET_SUCCESS: {
       return {
         ...state,
         ingredients: action.payload,
@@ -28,14 +23,14 @@ export const ingredientsReducer = (state = initialState, action) => {
         isFailed: false,
       };
     }
-    case GET_INGREDIENTS_FAILED: {
+    case ActionTypes.GET_FAILED: {
       return {
         ...state,
         isLoading: false,
         isFailed: true,
       };
     }
-    case SWITCH_TAB: {
+    case ActionTypes.SWITCH_TAB: {
       return {
         ...state,
         currentTab: action.payload,

@@ -1,18 +1,13 @@
-import {
-  ADD_INGREDIENT_CONSTRUCTOR,
-  DELETE_INGREDIENT_CONSTRUCTOR,
-  SORT_INGREDIENT_CONSTRUCTOR,
-  RESET_CONSTRUCTOR,
-} from "../actions/constructor";
+import { ActionTypes } from "./actions";
 
 const initialState = {
   ingredients: [],
-  bun: {},
+  bun: null,
 };
 
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_INGREDIENT_CONSTRUCTOR: {
+    case ActionTypes.ADD: {
       return {
         ...state,
         bun: action.payload.type === "bun" ? action.payload : state.bun,
@@ -22,7 +17,7 @@ export const constructorReducer = (state = initialState, action) => {
             : state.ingredients,
       };
     }
-    case DELETE_INGREDIENT_CONSTRUCTOR: {
+    case ActionTypes.DELETE: {
       return {
         ...state,
         ingredients: [
@@ -31,7 +26,7 @@ export const constructorReducer = (state = initialState, action) => {
         ],
       };
     }
-    case SORT_INGREDIENT_CONSTRUCTOR: {
+    case ActionTypes.SORT: {
       const ingredients = [...state.ingredients];
       ingredients.splice(
         action.payload.to,
@@ -43,7 +38,7 @@ export const constructorReducer = (state = initialState, action) => {
         ingredients,
       };
     }
-    case RESET_CONSTRUCTOR: {
+    case ActionTypes.RESET: {
       return initialState;
     }
     default:

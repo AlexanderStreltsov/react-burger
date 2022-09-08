@@ -1,13 +1,17 @@
 import detailsStyles from "./ingredient-details.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { loadImage } from "../../services/actions/ingredient-details";
+import { loadImage } from "../../services/ingredient-details/actions";
+import {
+  getIngredient,
+  getLoadImageStatus,
+} from "../../services/ingredient-details/selectors";
 import Spinner from "../spinner/spinner";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
 
-  const ingredient = useSelector((store) => store.details.ingredient);
-  const isLoading = useSelector((store) => store.details.isLoading);
+  const ingredient = useSelector(getIngredient);
+  const isLoading = useSelector(getLoadImageStatus);
 
   const { name, image_large, calories, carbohydrates, fat, proteins } =
     ingredient;

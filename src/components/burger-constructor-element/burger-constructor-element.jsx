@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import {
   deleteConstructor,
   sortConstructor,
-} from "../../services/actions/constructor";
+} from "../../services/constructor/actions";
 import elementStyles from "./burger-constructor-element.module.css";
 import { ingredientPropType } from "../../utils/prop-types";
 import { dragDropTypes } from "../../utils/drag-drop-types";

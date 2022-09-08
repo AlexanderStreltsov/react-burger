@@ -1,13 +1,17 @@
 import { v4 as uuid } from "uuid";
 
-export const ADD_INGREDIENT_CONSTRUCTOR = "ADD_INGREDIENT_CONSTRUCTOR";
-export const DELETE_INGREDIENT_CONSTRUCTOR = "DELETE_INGREDIENT_CONSTRUCTOR";
-export const SORT_INGREDIENT_CONSTRUCTOR = "SORT_INGREDIENT_CONSTRUCTOR";
-export const RESET_CONSTRUCTOR = "RESET_CONSTRUCTOR";
+export const name = "CONSTRUCTOR";
+
+export const ActionTypes = {
+  ADD: `${name}/ADD`,
+  DELETE: `${name}/DELETE`,
+  SORT: `${name}/SORT`,
+  RESET: `${name}/RESET`,
+};
 
 export const addConstructor = (ingredient) => {
   return {
-    type: ADD_INGREDIENT_CONSTRUCTOR,
+    type: ActionTypes.ADD,
     payload: {
       ...ingredient.ingredient,
       id: uuid(),
@@ -17,14 +21,14 @@ export const addConstructor = (ingredient) => {
 
 export const deleteConstructor = (index) => {
   return {
-    type: DELETE_INGREDIENT_CONSTRUCTOR,
+    type: ActionTypes.DELETE,
     payload: index,
   };
 };
 
 export const sortConstructor = (indexFrom, indexTo) => {
   return {
-    type: SORT_INGREDIENT_CONSTRUCTOR,
+    type: ActionTypes.SORT,
     payload: {
       to: indexTo,
       from: indexFrom,

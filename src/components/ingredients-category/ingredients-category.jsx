@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { getIngredientsCounters } from "../../services/constructor/selectors";
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import PropTypes from "prop-types";
 import { ingredientPropType } from "../../utils/prop-types";
@@ -11,6 +13,8 @@ const IngredientsCategory = ({
   sauceRef,
   mainRef,
 }) => {
+  const ingredientsCounters = useSelector(getIngredientsCounters);
+
   return (
     <li
       ref={
@@ -26,7 +30,11 @@ const IngredientsCategory = ({
       </h2>
       <ul className={categoryStyles.list}>
         {ingredients.map((ingredient) => (
-          <BurgerIngredient key={ingredient._id} ingredient={ingredient} />
+          <BurgerIngredient
+            key={ingredient._id}
+            ingredient={ingredient}
+            count={ingredientsCounters[ingredient._id]}
+          />
         ))}
       </ul>
     </li>

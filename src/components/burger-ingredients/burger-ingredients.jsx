@@ -9,7 +9,12 @@ import Spinner from "../spinner/spinner";
 import {
   setCurrentTab,
   getIngredientsAction,
-} from "../../services/actions/ingredients";
+} from "../../services/ingredients/actions";
+import {
+  getIngredients,
+  getCurrentTab,
+  getRequestStatus,
+} from "../../services/ingredients/selectors";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -18,9 +23,9 @@ const BurgerIngredients = () => {
     dispatch(getIngredientsAction());
   }, [dispatch]);
 
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
-  const currentTab = useSelector((store) => store.ingredients.currentTab);
-  const isLoading = useSelector((store) => store.ingredients.isLoading);
+  const ingredients = useSelector(getIngredients);
+  const currentTab = useSelector(getCurrentTab);
+  const isLoading = useSelector(getRequestStatus);
 
   const categoryNames = {
     bun: "Булки",
