@@ -27,13 +27,6 @@ const BurgerIngredients = () => {
   const currentTab = useSelector(getCurrentTab);
   const isLoading = useSelector(getRequestStatus);
 
-  const categoryNames = {
-    bun: "Булки",
-    sauce: "Соусы",
-    main: "Начинки",
-  };
-  const categoryTypeList = Object.keys(categoryNames);
-
   const getFilteredIngredientsList = (ingredients, type) => {
     return ingredients.filter((item) => item.type === type);
   };
@@ -53,6 +46,18 @@ const BurgerIngredients = () => {
     isInViewSauce && dispatch(setCurrentTab("sauce"));
     isInViewMain && dispatch(setCurrentTab("main"));
   }, [isInViewBun, isInViewSauce, isInViewMain, dispatch]);
+
+  const categoryNames = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main: "Начинки",
+  };
+  const categoryRefs = {
+    bun: bunRef,
+    sauce: sauceRef,
+    main: mainRef,
+  };
+  const categoryTypeList = Object.keys(categoryNames);
 
   return (
     <section>
@@ -82,9 +87,7 @@ const BurgerIngredients = () => {
               id={type}
               ingredients={getFilteredIngredientsList(ingredients, type)}
               categoryNames={categoryNames}
-              bunRef={bunRef}
-              sauceRef={sauceRef}
-              mainRef={mainRef}
+              ref={categoryRefs[type]}
             />
           ))}
         </ul>
