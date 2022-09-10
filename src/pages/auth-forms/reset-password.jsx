@@ -4,7 +4,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import pageStyles from "./reset-password.module.css";
+import pageStyles from "./auth-forms.module.css";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");

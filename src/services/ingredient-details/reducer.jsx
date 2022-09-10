@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
 };
 
-export const ingredientDetailReducer = (state = initialState, action) => {
+export const ingredientDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_MODAL: {
       return {

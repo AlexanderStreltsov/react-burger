@@ -17,6 +17,10 @@
   width: 100%;
 }
 
+.form > div > p {
+  margin-bottom: 0;
+}
+
 .form > button {
   width: min-content;
   justify-self: center;
@@ -32,7 +36,7 @@
   gap: 16px;
 }
 
-.actionItem {
+.action {
   display: flex;
   align-items: center;
   gap: 8px;

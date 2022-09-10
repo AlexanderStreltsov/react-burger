@@ -9,11 +9,11 @@ import appStyles from "./app.module.css";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
-import HomePage from "../../pages/home/home";
-import SignInPage from "../../pages/sign-in/sign-in";
-import RegistrationPage from "../../pages/registration/registration";
-import ResetPasswordPage from "../../pages/reset-password/reset-password";
-import ForgotPasswordPage from "../../pages/forgot-password/forgot-password";
+import ConstructorPage from "../../pages/constructor/constructor";
+import SignInPage from "../../pages/auth-forms/sign-in";
+import SignUpPage from "../../pages/auth-forms/sign-up";
+import ResetPasswordPage from "../../pages/auth-forms/reset-password";
+import ForgotPasswordPage from "../../pages/auth-forms/forgot-password";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -33,13 +33,13 @@ const App = () => {
         <main className={appStyles.content}>
           <Switch>
             <Route exact path="/">
-              <HomePage />
+              <ConstructorPage />
             </Route>
             <Route exact path="/login">
               <SignInPage />
             </Route>
             <Route exact path="/register">
-              <RegistrationPage />
+              <SignUpPage />
             </Route>
             <Route exact path="/forgot-password">
               <ForgotPasswordPage />
