@@ -6,10 +6,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import Spinner from "../spinner/spinner";
-import {
-  setCurrentTab,
-  getIngredientsAction,
-} from "../../services/ingredients/actions";
+import { setCurrentTab } from "../../services/ingredients/actions";
 import {
   getIngredients,
   getCurrentTab,
@@ -18,10 +15,6 @@ import {
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredientsAction());
-  }, [dispatch]);
 
   const ingredients = useSelector(getIngredients);
   const currentTab = useSelector(getCurrentTab);

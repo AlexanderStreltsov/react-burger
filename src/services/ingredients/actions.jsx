@@ -10,9 +10,7 @@ export const ActionTypes = {
 };
 
 export const getIngredientsAction = () => (dispatch) => {
-  dispatch({
-    type: ActionTypes.GET_REQUEST,
-  });
+  dispatch({ type: ActionTypes.GET_REQUEST });
 
   return getIngredients()
     .then((result) => {

@@ -1,0 +1,25 @@
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  margin: 17px 0;
+}
+
+.link {
+  text-decoration: none;
+  transition: color 0.3s linear;
+  color: #8585ad;
+}
+
+.link:hover {
+  color: #f2f2f3;
+}
+
+.linkActive {
+  color: #f2f2f3;
+}

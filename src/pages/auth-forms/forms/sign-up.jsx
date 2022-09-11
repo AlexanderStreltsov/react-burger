@@ -6,41 +6,55 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import pageStyles from "./auth-forms.module.css";
-import { ActionTypes as ActionTypesAuth } from "../../services/auth/actions";
-import { registerUser } from "../../services/auth/actions";
+import pageStyles from "../auth-forms.module.css";
+import { ActionTypes as ActionTypesAuth } from "../../../services/auth/actions";
+import { registerUser } from "../../../services/auth/actions";
 import {
   getUser,
-  getRegisterSendig,
-  getResiterError,
-} from "../../services/auth/selectors";
-import { checkValidEmail } from "../../utils/utils";
-import Spinner from "../../components/spinner/spinner";
+  getRegisterStatus,
+  getRegisterError,
+} from "../../../services/auth/selectors";
+import { checkEmailValid } from "../../../utils/utils";
+import Spinner from "../../../components/spinner/spinner";
+import { routes } from "../../../utils/routes";
 
 const SignUpPage = () => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [isEmail, setIsEmail] = useState(true);
   const [password, setPassword] = useState("");
 
+  const [email, setEmail] = useState("");
+  const [emailExist, setEmailExist] = useState("");
+  const [isEmailValid, setEmailValid] = useState(true);
+
   const user = useSelector(getUser);
-  const registerSending = useSelector(getRegisterSendig);
-  const registerError = useSelector(getResiterError);
+  const isRegisterLoading = useSelector(getRegisterStatus);
+  const registerError = useSelector(getRegisterError);
+
+  if (registerError && !emailExist) {
+    setEmailExist(email);
+  }
 
   useEffect(() => {
-    registerError && setIsEmail(false);
+    if (registerError && registerError.includes("зарегистрирован")) {
+      setEmailValid(false);
+    }
   }, [registerError]);
 
-  const submitCred = (e) => {
-    e.preventDefault();
+  const isShowErrorEmail = () => {
+    return checkEmailValid(email) ? emailExist !== email : false;
+  };
+
+  const submitCred = (evt) => {
+    evt.preventDefault();
+    setEmailExist("");
     dispatch(registerUser({ name, email, password }));
   };
 
-  return user ? (
-    <Redirect to="/" />
-  ) : registerSending ? (
+  return user.email ? (
+    <Redirect to={routes.main} />
+  ) : isRegisterLoading ? (
     <Spinner />
   ) : (
     <div className={pageStyles.wrapper}>
@@ -62,12 +76,14 @@ const SignUpPage = () => {
           type={"email"}
           placeholder={"E-mail"}
           onChange={(evt) => setEmail(evt.target.value)}
-          onFocus={() => setIsEmail(true)}
-          onBlur={() => email && setIsEmail(checkValidEmail(email))}
+          onFocus={() => setEmailValid(true)}
+          onBlur={() => setEmailValid(isShowErrorEmail)}
           value={email}
           name={"email"}
-          error={!isEmail}
-          errorText={registerError || "Некорректный e-mail"}
+          error={!isEmailValid}
+          errorText={
+            (emailExist === email && registerError) || "Некорректный e-mail"
+          }
           size={"default"}
         />
         <PasswordInput
@@ -80,10 +96,12 @@ const SignUpPage = () => {
           size="medium"
           disabled={
             !(
-              checkValidEmail(email) &&
-              password.length > 5 &&
               name &&
-              !registerSending
+              checkEmailValid(email) &&
+              email !== emailExist &&
+              isEmailValid &&
+              password.length > 5 &&
+              !isRegisterLoading
             )
           }
         >
@@ -96,7 +114,7 @@ const SignUpPage = () => {
         </p>
         <Link
           className={`${pageStyles.link} text text_type_main-default`}
-          to="/login"
+          to={routes.signin}
           onClick={() => dispatch({ type: ActionTypesAuth.RESET })}
         >
           Войти

@@ -10,9 +10,8 @@ export const ActionTypes = {
 };
 
 export const orderBurger = (order) => (dispatch) => {
-  dispatch({
-    type: ActionTypes.CREATE_REQUEST,
-  });
+  dispatch({ type: ActionTypes.CREATE_REQUEST });
+
   return saveOrder(order)
     .then((result) => {
       dispatch({

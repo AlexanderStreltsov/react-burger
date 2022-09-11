@@ -1,46 +1,104 @@
-import { register } from "../../utils/api";
-import { setCookie } from "../../utils/utils";
+import {
+  registerUserReq,
+  updateProfileReq,
+  refreshTokenReq,
+  getUserReq,
+} from "../../utils/api";
+import { setCookie, getErrMsgForUser } from "../../utils/utils";
 
 export const name = "AUTH";
 
 export const ActionTypes = {
-  SET_USER: `${name}/SET_USER`,
-  LOGOUT: `${name}/LOGOUT`,
-  REGISTER_SEND: `${name}/REGISTER_SEND`,
+  REGISTER_REQUEST: `${name}/REGISTER_REQUEST`,
   REGISTER_SUCCESS: `${name}/REGISTER_SUCCESS`,
   REGISTER_FAILED: `${name}/REGISTER_FAILED`,
-  LOGIN_SEND: `${name}/LOGIN_SEND`,
+
+  GET_USER_REQUEST: `${name}/GET_USER_REQUEST`,
+  GET_USER_SUCCESS: `${name}/GET_USER_SUCCESS`,
+  GET_USER_FAILED: `${name}/GET_USER_FAILED`,
+
+  UPDATE_REQUEST: `${name}/UPDATE_REQUEST`,
+  UPDATE_SUCCESS: `${name}/UPDATE_SUCCESS`,
+  UPDATE_FAILED: `${name}/UPDATE_FAILED`,
+
+  LOGIN_REQUEST: `${name}/LOGIN_REQUEST`,
   LOGIN_SUCCESS: `${name}/LOGIN_SUCCESS`,
   LOGIN_FAILED: `${name}/LOGIN_FAILED`,
-  TOKEN_UPDATE_SUCCESS: `${name}/TOKEN_UPDATE_SUCCESS`,
-  TOKEN_UPDATE_FAILED: `${name}/TOKEN_UPDATE_FAILED`,
+
+  LOGOUT: `${name}/LOGOUT`,
   RESET: `${name}/RESET`,
 };
 
 export const registerUser = (form) => (dispatch) => {
-  dispatch({
-    type: ActionTypes.REGISTER_SEND,
-  });
+  dispatch({ type: ActionTypes.REGISTER_REQUEST });
 
-  return register(form)
+  return registerUserReq(form)
     .then((result) => {
-      if (!result || !result.success) {
-        throw new Error();
-      }
-      localStorage.setItem("token", result.refreshToken);
       const authToken = result.accessToken.split("Bearer ")[1];
       setCookie("token", authToken);
+      localStorage.setItem("token", result.refreshToken);
       dispatch({
         type: ActionTypes.REGISTER_SUCCESS,
         payload: result.user,
       });
     })
     .catch((err) => {
-      const errMessage = err.status === 403 && "E-mail уже зарегистрирован";
       dispatch({
         type: ActionTypes.REGISTER_FAILED,
-        payload: errMessage || err,
+        payload: getErrMsgForUser(err) || err.message,
       });
       return Promise.reject(err);
     });
+};
+
+const refreshToken = () => {
+  return refreshTokenReq().then((result) => {
+    const authToken = result.accessToken.split("Bearer ")[1];
+    setCookie("token", authToken);
+    localStorage.setItem("token", result.refreshToken);
+  });
+};
+
+export const getUser = () => {
+  return function getUserAction(dispatch) {
+    dispatch({ type: ActionTypes.GET_USER_REQUEST });
+    getUserReq()
+      .then((result) => {
+        dispatch({
+          type: ActionTypes.GET_USER_SUCCESS,
+          payload: result.user,
+        });
+      })
+      .catch((err) => {
+        if (err.message === "jwt expired") {
+          refreshToken().then(() => getUserAction(dispatch));
+        }
+        dispatch({
+          type: ActionTypes.GET_USER_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+};
+
+export const updateProfile = (form) => {
+  return function updateProfileAction(dispatch) {
+    dispatch({ type: ActionTypes.UPDATE_REQUEST });
+    updateProfileReq(form)
+      .then((result) => {
+        dispatch({
+          type: ActionTypes.UPDATE_SUCCESS,
+          payload: result.user,
+        });
+      })
+      .catch((err) => {
+        if (err.message === "jwt expired") {
+          refreshToken().then(() => updateProfileAction(dispatch));
+        }
+        dispatch({
+          type: ActionTypes.UPDATE_FAILED,
+          payload: getErrMsgForUser(err) || err.message,
+        });
+      });
+  };
 };

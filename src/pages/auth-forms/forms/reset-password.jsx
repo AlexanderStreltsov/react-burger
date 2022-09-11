@@ -4,7 +4,8 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import pageStyles from "./auth-forms.module.css";
+import pageStyles from "../auth-forms.module.css";
+import { routes } from "../../../utils/routes";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
@@ -50,7 +51,7 @@ const ResetPasswordPage = () => {
         </p>
         <Link
           className={`${pageStyles.link} text text_type_main-default`}
-          to="/login"
+          to={routes.signin}
         >
           Войти
         </Link>

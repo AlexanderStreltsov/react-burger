@@ -5,7 +5,8 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import pageStyles from "./auth-forms.module.css";
+import pageStyles from "../auth-forms.module.css";
+import { routes } from "../../../utils/routes";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -47,13 +48,13 @@ const SignInPage = () => {
       <ul className={pageStyles.actionList}>
         <li className={pageStyles.action}>
           <p className={descClass}>Вы&nbsp;&mdash; новый пользователь?</p>
-          <Link className={linkClass} to="/register">
+          <Link className={linkClass} to={routes.signup}>
             Зарегистрироваться
           </Link>
         </li>
         <li className={pageStyles.action}>
           <p className={descClass}>Забыли пароль?</p>
-          <Link className={linkClass} to="/forgot-password">
+          <Link className={linkClass} to={routes.forgot}>
             Восстановить пароль
           </Link>
         </li>

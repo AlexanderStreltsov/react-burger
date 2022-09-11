@@ -1,7 +1,21 @@
 import validator from "validator";
 
-export const checkValidEmail = (email) => {
+export const checkEmailValid = (email) => {
   return validator.isEmail(email);
+};
+
+export const getErrMsgForUser = (err) => {
+  switch (err.message) {
+    case "User already exists": {
+      return "Данный e-mail зарегистрирован";
+    }
+    case "User with such email already exists": {
+      return "Пользователь с данным e-mail уже зарегистрирован";
+    }
+    default: {
+      return;
+    }
+  }
 };
 
 export const getCookie = (name) => {
