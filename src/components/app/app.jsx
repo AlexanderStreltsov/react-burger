@@ -54,7 +54,7 @@ const App = () => {
         <AppHeader />
         <main className={appStyles.content}>
           <Switch>
-            <Route exact path={routes.main}>
+            <Route exact path={routes.home}>
               <ConstructorPage />
             </Route>
             <Route exact path={routes.signin}>

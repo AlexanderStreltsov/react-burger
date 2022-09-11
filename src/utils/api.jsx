@@ -7,6 +7,7 @@ const apiRegister = apiUrl + "/auth/register";
 const apiGetUser = apiUrl + "/auth/user";
 const apiUpdateProfile = apiUrl + "/auth/user";
 const apiRefreshToken = apiUrl + "/auth/token";
+const apiForgotPassword = apiUrl + "/password-reset";
 
 const checkResponse = (res) =>
   res.ok ? res.json() : res.json().then((data) => Promise.reject(data));
@@ -80,5 +81,15 @@ export const refreshTokenReq = () => {
     body: JSON.stringify({
       token: localStorage.getItem("token"),
     }),
+  }).then((res) => checkResponse(res));
+};
+
+export const forgotReq = (email) => {
+  return fetch(apiForgotPassword, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(email),
   }).then((res) => checkResponse(res));
 };

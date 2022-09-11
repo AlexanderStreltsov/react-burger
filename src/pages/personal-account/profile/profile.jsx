@@ -91,8 +91,7 @@ const Profile = () => {
       (name && name !== user.name) ||
       (checkEmailValid(login) &&
         login !== user.email &&
-        login !== loginExist &&
-        isLoginValid) ||
+        login !== loginExist) ||
       (password && password.length > 5) ||
       isUpdateLoading
     );

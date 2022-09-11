@@ -7,3 +7,5 @@ export const getUserStatus = (store) => store[name].isGetUserLoading;
 export const getUserError = (store) => store[name].getUserError;
 export const getUpdateStatus = (store) => store[name].isUpdateLoading;
 export const getUpdateError = (store) => store[name].updateError;
+export const getForgotStatus = (store) => store[name].isForgotLoading;
+export const getForgotGeted = (store) => store[name].isForgotGeted;

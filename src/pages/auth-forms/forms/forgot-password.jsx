@@ -1,34 +1,68 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Redirect } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import pageStyles from "../auth-forms.module.css";
 import { routes } from "../../../utils/routes";
+import { checkEmailValid } from "../../../utils/utils";
+import { forgotPassword } from "../../../services/auth/actions";
+import {
+  getForgotStatus,
+  getForgotGeted,
+  getUser,
+} from "../../../services/auth/selectors";
+import Spinner from "../../../components/spinner/spinner";
 
 const ForgotPasswordPage = () => {
+  const dispatch = useDispatch();
+
+  const user = useSelector(getUser);
+  const isForgotLoading = useSelector(getForgotStatus);
+  const isForgotGeted = useSelector(getForgotGeted);
+
   const [email, setEmail] = useState("");
+  const [isEmailValid, setEmailValid] = useState(true);
+
+  const isShowErrorEmail = () => {
+    return checkEmailValid(email);
+  };
 
   const submitEmail = (e) => {
     e.preventDefault();
-    console.log(email);
+    dispatch(forgotPassword({ email }));
   };
 
-  return (
+  return user.email ? (
+    <Redirect to={routes.home} />
+  ) : isForgotGeted ? (
+    <Redirect to={routes.reset} />
+  ) : isForgotLoading ? (
+    <Spinner />
+  ) : (
     <div className={pageStyles.wrapper}>
       <h2 className="text text_type_main-medium mb-6">Восстановление пароля</h2>
       <form className={`${pageStyles.form} mb-20`} onSubmit={submitEmail}>
         <Input
           type={"email"}
-          placeholder={"Укажите e-mail"}
+          placeholder={"E-mail"}
           onChange={(evt) => setEmail(evt.target.value)}
+          onFocus={() => setEmailValid(true)}
+          onBlur={() => setEmailValid(isShowErrorEmail)}
           value={email}
           name={"email"}
+          error={!isEmailValid}
+          errorText={"Некорректный e-mail"}
           size={"default"}
         />
-        <Button type="primary" size="medium" disabled={!email}>
-          Сохранить
+        <Button
+          type="primary"
+          size="medium"
+          disabled={!checkEmailValid(email) && !isForgotLoading}
+        >
+          Восстановить
         </Button>
       </form>
       <div className={pageStyles.action}>

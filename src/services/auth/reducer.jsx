@@ -3,11 +3,14 @@ import { ActionTypes } from "./actions";
 const initialState = {
   user: { name: "", email: "" },
   isRegisterLoading: false,
-  registerError: false,
+  registerError: null,
   isGetUserLoading: false,
   getUserError: false,
   isUpdateLoading: false,
-  updateError: false,
+  updateError: null,
+  isForgotLoading: false,
+  forgotError: null,
+  isForgotGeted: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -60,14 +63,14 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isUpdateLoading: true,
-        updateError: false,
+        updateError: null,
       };
     }
     case ActionTypes.UPDATE_SUCCESS: {
       return {
         ...state,
         isUpdateLoading: false,
-        updateError: false,
+        updateError: null,
         user: action.payload,
       };
     }
@@ -76,6 +79,28 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isUpdateLoading: false,
         updateError: action.payload,
+      };
+    }
+    case ActionTypes.FORGOT_REQUEST: {
+      return {
+        ...state,
+        isForgotLoading: true,
+        forgotError: false,
+      };
+    }
+    case ActionTypes.FORGOT_SUCCESS: {
+      return {
+        ...state,
+        isForgotLoading: false,
+        forgotError: null,
+        isForgotGeted: true,
+      };
+    }
+    case ActionTypes.FORGOT_FAILED: {
+      return {
+        ...state,
+        isForgotLoading: false,
+        forgotError: action.payload,
       };
     }
     case ActionTypes.RESET: {

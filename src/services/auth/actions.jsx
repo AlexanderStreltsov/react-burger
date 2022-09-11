@@ -3,6 +3,7 @@ import {
   updateProfileReq,
   refreshTokenReq,
   getUserReq,
+  forgotReq,
 } from "../../utils/api";
 import { setCookie, getErrMsgForUser } from "../../utils/utils";
 
@@ -24,6 +25,10 @@ export const ActionTypes = {
   LOGIN_REQUEST: `${name}/LOGIN_REQUEST`,
   LOGIN_SUCCESS: `${name}/LOGIN_SUCCESS`,
   LOGIN_FAILED: `${name}/LOGIN_FAILED`,
+
+  FORGOT_REQUEST: `${name}/FORGOT_REQUEST`,
+  FORGOT_SUCCESS: `${name}/FORGOT_SUCCESS`,
+  FORGOT_FAILED: `${name}/FORGOT_FAILED`,
 
   LOGOUT: `${name}/LOGOUT`,
   RESET: `${name}/RESET`,
@@ -101,4 +106,19 @@ export const updateProfile = (form) => {
         });
       });
   };
+};
+
+export const forgotPassword = (email) => (dispatch) => {
+  dispatch({ type: ActionTypes.FORGOT_REQUEST });
+
+  forgotReq(email)
+    .then(() => {
+      dispatch({ type: ActionTypes.FORGOT_SUCCESS });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ActionTypes.FORGOT_FAILED,
+        payload: err.message,
+      });
+    });
 };

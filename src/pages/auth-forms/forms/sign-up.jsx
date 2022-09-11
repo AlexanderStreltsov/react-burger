@@ -53,7 +53,7 @@ const SignUpPage = () => {
   };
 
   return user.email ? (
-    <Redirect to={routes.main} />
+    <Redirect to={routes.home} />
   ) : isRegisterLoading ? (
     <Spinner />
   ) : (
@@ -99,7 +99,6 @@ const SignUpPage = () => {
               name &&
               checkEmailValid(email) &&
               email !== emailExist &&
-              isEmailValid &&
               password.length > 5 &&
               !isRegisterLoading
             )
@@ -115,7 +114,7 @@ const SignUpPage = () => {
         <Link
           className={`${pageStyles.link} text text_type_main-default`}
           to={routes.signin}
-          onClick={() => dispatch({ type: ActionTypesAuth.RESET })}
+          // onClick={() => dispatch({ type: ActionTypesAuth.RESET })}
         >
           Войти
         </Link>
