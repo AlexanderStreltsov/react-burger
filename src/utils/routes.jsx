@@ -6,4 +6,5 @@ export const routes = {
   reset: "/reset-password",
   profile: "/profile",
   orders: "/profile/orders",
+  feed: "/develop-mode",
 };

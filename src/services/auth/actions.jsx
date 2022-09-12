@@ -6,6 +6,7 @@ import {
   forgotReq,
   resetReq,
   loginReq,
+  logoutReq,
 } from "../../utils/api";
 import { setCookie } from "../../utils/utils";
 
@@ -36,9 +37,11 @@ export const ActionTypes = {
   RESET_SUCCESS: `${name}/RESET_SUCCESS`,
   RESET_FAILED: `${name}/RESET_FAILED`,
 
-  RESET_ERRORS: `${name}/RESET_ERRORS`,
+  LOGOUT_REQUEST: `${name}/LOGOUT_REQUEST`,
+  LOGOUT_SUCCESS: `${name}/LOGOUT_SUCCESS`,
+  LOGOUT_FAILED: `${name}/LOGOUT_FAILED`,
 
-  LOGOUT: `${name}/LOGOUT`,
+  RESET_ERRORS: `${name}/RESET_ERRORS`,
 };
 
 export const registerUser = (form) => (dispatch) => {
@@ -161,6 +164,23 @@ export const loginUser = (form) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: ActionTypes.LOGIN_FAILED,
+        payload: err.message,
+      });
+    });
+};
+
+export const logoutUser = () => (dispatch) => {
+  dispatch({ type: ActionTypes.LOGOUT_REQUEST });
+
+  logoutReq()
+    .then(() => {
+      setCookie("token", null, { expires: -10 });
+      localStorage.removeItem("token");
+      dispatch({ type: ActionTypes.LOGOUT_SUCCESS });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ActionTypes.LOGOUT_FAILED,
         payload: err.message,
       });
     });

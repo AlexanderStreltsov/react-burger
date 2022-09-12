@@ -31,25 +31,23 @@
   justify-content: flex-end;
 }
 
-.button {
-  background: none;
-  display: flex;
-  box-sizing: border-box;
-  border: none;
+.link {
+  text-decoration: none;
   transition: color 0.3s linear;
-  cursor: pointer;
   color: #8585ad;
+  display: flex;
+  align-items: center;
 }
 
-.buttonActive {
+.link:hover {
   color: #f2f2f3;
 }
 
-.button:hover {
+.linkActive {
   color: #f2f2f3;
 }
 
-.button:hover svg {
+.link:hover svg {
   fill: #f2f2f3;
 }
 
@@ -63,7 +61,7 @@
   transition: fill 0.3s linear;
 }
 
-.iconActive > svg {
+.linkActive > i > svg {
   fill: #f2f2f3;
   transition: fill 0.3s linear;
 }

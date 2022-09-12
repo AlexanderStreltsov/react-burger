@@ -16,6 +16,8 @@ const initialState = {
   isResetSucceded: false,
   loginError: null,
   isLoginLoading: false,
+  logoutError: null,
+  isLogoutLoading: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -112,7 +114,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isForgotLoading: true,
-        forgotError: false,
+        forgotError: null,
       };
     }
     case ActionTypes.FORGOT_SUCCESS: {
@@ -134,7 +136,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isResetLoading: true,
-        resetError: false,
+        resetError: null,
       };
     }
     case ActionTypes.RESET_SUCCESS: {
@@ -162,6 +164,23 @@ export const authReducer = (state = initialState, action) => {
         resetError: null,
         loginError: null,
       };
+    }
+    case ActionTypes.LOGOUT_REQUEST: {
+      return {
+        ...state,
+        isLogoutLoading: true,
+        logoutError: null,
+      };
+    }
+    case ActionTypes.LOGOUT_FAILED: {
+      return {
+        ...state,
+        isLogoutLoading: false,
+        logoutError: action.payload,
+      };
+    }
+    case ActionTypes.LOGOUT_SUCCESS: {
+      return initialState;
     }
     default:
       return state;

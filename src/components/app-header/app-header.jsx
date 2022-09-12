@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import {
   Logo,
   BurgerIcon,
@@ -5,13 +7,16 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./app-header.module.css";
+import { routes } from "../../utils/routes";
+import { ActionTypes as ActionTypesAuth } from "../../services/auth/actions";
 
 const AppHeader = () => {
-  const buttonClass = `${headerStyles.button} text text_type_main-default pt-4 pl-5 pb-4 pr-5`;
-  const buttonActiveClass = `${buttonClass} ${headerStyles.buttonActive}`;
+  const dispatch = useDispatch();
+
+  const listItemClass = `${headerStyles.listItem} mt-4 mb-4`;
+  const linkClass = `${headerStyles.link} text text_type_main-default pt-4 pl-5 pb-4 pr-5`;
   const iconClass = `${headerStyles.icon} mr-2`;
   const iconActiveClass = `${iconClass} ${headerStyles.iconActive}`;
-  const listItemClass = `${headerStyles.listItem} mt-4 mb-4`;
 
   return (
     <header className={headerStyles.header}>
@@ -22,28 +27,45 @@ const AppHeader = () => {
         <nav>
           <ul className={headerStyles.list}>
             <li className={listItemClass}>
-              <button className={buttonActiveClass}>
-                <i className={iconActiveClass}>
+              <NavLink
+                exact
+                to={routes.home}
+                className={linkClass}
+                activeClassName={headerStyles.linkActive}
+                onClick={() => dispatch({ type: ActionTypesAuth.RESET_ERRORS })}
+              >
+                <i className={iconClass}>
                   <BurgerIcon />
                 </i>
                 Конструктор
-              </button>
+              </NavLink>
             </li>
             <li className={listItemClass}>
-              <button className={buttonClass}>
+              <NavLink
+                exact
+                to={routes.feed}
+                className={linkClass}
+                activeClassName={headerStyles.linkActive}
+                onClick={() => dispatch({ type: ActionTypesAuth.RESET_ERRORS })}
+              >
                 <i className={iconClass}>
                   <ListIcon />
                 </i>
                 Лента заказов
-              </button>
+              </NavLink>
             </li>
             <li className={listItemClass}>
-              <button className={buttonClass}>
+              <NavLink
+                to={routes.profile}
+                className={linkClass}
+                activeClassName={headerStyles.linkActive}
+                onClick={() => dispatch({ type: ActionTypesAuth.RESET_ERRORS })}
+              >
                 <i className={iconClass}>
                   <ProfileIcon />
                 </i>
                 Личный кабинет
-              </button>
+              </NavLink>
             </li>
           </ul>
         </nav>

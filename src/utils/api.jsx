@@ -10,6 +10,7 @@ const apiRegister = apiAuth + "/register";
 const apiGetUser = apiAuth + "/user";
 const apiLogin = apiAuth + "/login";
 const apiUpdateProfile = apiAuth + "/user";
+const apiLogout = apiAuth + "/logout";
 const apiRefreshToken = apiAuth + "/token";
 
 const apiForgotPassword = apiUrl + "/password-reset";
@@ -119,5 +120,18 @@ export const loginReq = (form) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(form),
+  }).then((res) => checkResponse(res));
+};
+
+export const logoutReq = () => {
+  return fetch(apiLogout, {
+    method: "POST",
+    ...request,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: localStorage.getItem("token"),
+    }),
   }).then((res) => checkResponse(res));
 };

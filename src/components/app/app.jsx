@@ -70,7 +70,7 @@ const App = () => {
             <Route exact path={routes.reset}>
               <ResetPasswordPage />
             </Route>
-            <Route exact path={routes.profile}>
+            <Route path={routes.profile}>
               <PersonalAccountPage />
             </Route>
             <Route>

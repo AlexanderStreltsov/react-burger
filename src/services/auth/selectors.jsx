@@ -14,3 +14,4 @@ export const getResetError = (store) => store[name].resetError;
 export const getResetSucceded = (store) => store[name].isResetSucceded;
 export const getLoginStatus = (store) => store[name].isLoginLoading;
 export const getLoginError = (store) => store[name].loginError;
+export const getLogoutStatus = (store) => store[name].isLogoutLoading;
