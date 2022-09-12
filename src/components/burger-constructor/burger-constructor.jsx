@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import {
   ConstructorElement,
@@ -16,14 +17,19 @@ import {
   getTotalPrice,
   getIngredientsId,
 } from "../../services/constructor/selectors";
+import { getUser } from "../../services/auth/selectors";
 import { getOrderRequestStatus } from "../../services/order/selectors";
 import BurgerEmptyElement from "../burger-empty-element/burger-empty-element";
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import Spinner from "../spinner/spinner";
 import { dragDropTypes } from "../../utils/drag-drop-types";
+import { routes } from "../../utils/routes";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const user = useSelector(getUser);
 
   const { ingredients, bun } = useSelector(getConstructorItems);
   const isLoading = useSelector(getOrderRequestStatus);
@@ -40,8 +46,12 @@ const BurgerConstructor = () => {
   });
 
   const handleCreateOrder = () => {
-    dispatch(orderBurger(ingredientsId));
-    dispatch({ type: ActionTypesConstructor.RESET });
+    if (user.email) {
+      dispatch(orderBurger({ ingredients: ingredientsId }));
+      dispatch({ type: ActionTypesConstructor.RESET });
+    } else {
+      history.push(routes.signin);
+    }
   };
 
   return (

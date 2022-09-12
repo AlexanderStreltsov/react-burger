@@ -22,6 +22,7 @@ import {
   ForgotPasswordPage,
 } from "../../pages/auth-forms";
 import PersonalAccountPage from "../../pages/personal-account/personal-account";
+import ProtectedRoute from "../protected-route/protected-route";
 import { routes } from "../../utils/routes";
 import { getCookie } from "../../utils/utils";
 import Spinner from "../spinner/spinner";
@@ -70,9 +71,10 @@ const App = () => {
             <Route exact path={routes.reset}>
               <ResetPasswordPage />
             </Route>
-            <Route path={routes.profile}>
+            <ProtectedRoute path={routes.profile}>
               <PersonalAccountPage />
-            </Route>
+            </ProtectedRoute>
+
             <Route>
               <NotFoundPage />
             </Route>

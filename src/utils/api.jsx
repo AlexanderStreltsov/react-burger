@@ -1,4 +1,4 @@
-import { getCookie } from "./utils";
+import { getCookie, setCookie } from "./utils";
 
 const apiUrl = "https://norma.nomoreparties.space/api";
 
@@ -25,22 +25,24 @@ export const getIngredients = () => {
   );
 };
 
-export const saveOrder = (ingredients) => {
-  return fetch(apiOrders, {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify({
-      ingredients: ingredients,
-    }),
-  }).then((res) => checkResponse(res));
-};
-
 const request = {
   mode: "cors",
   cache: "no-cache",
   credentials: "same-origin",
   redirect: "follow",
   referrerPolicy: "no-referrer",
+};
+
+export const saveOrder = (ingredients) => {
+  return fetch(apiOrders, {
+    ...request,
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer " + getCookie("token"),
+    },
+    body: JSON.stringify(ingredients),
+  }).then((res) => checkResponse(res));
 };
 
 export const registerUserReq = (form) => {
@@ -88,7 +90,13 @@ export const refreshTokenReq = () => {
     body: JSON.stringify({
       token: localStorage.getItem("token"),
     }),
-  }).then((res) => checkResponse(res));
+  })
+    .then((res) => checkResponse(res))
+    .then((result) => {
+      const authToken = result.accessToken.split("Bearer ")[1];
+      setCookie("token", authToken);
+      localStorage.setItem("token", result.refreshToken);
+    });
 };
 
 export const forgotReq = (email) => {

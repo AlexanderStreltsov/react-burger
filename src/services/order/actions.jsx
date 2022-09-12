@@ -1,4 +1,4 @@
-import { saveOrder } from "../../utils/api";
+import { saveOrder, refreshTokenReq } from "../../utils/api";
 
 export const name = "ORDER";
 
@@ -9,20 +9,26 @@ export const ActionTypes = {
   RESET_MODAL: `${name}/RESET_MODAL`,
 };
 
-export const orderBurger = (order) => (dispatch) => {
-  dispatch({ type: ActionTypes.CREATE_REQUEST });
+export const orderBurger = (ingredients) => {
+  return function createBurgerOrder(dispatch) {
+    dispatch({ type: ActionTypes.CREATE_REQUEST });
 
-  return saveOrder(order)
-    .then((result) => {
-      dispatch({
-        type: ActionTypes.CREATE_SUCCESS,
-        payload: result.order.number,
+    return saveOrder(ingredients)
+      .then((result) => {
+        dispatch({
+          type: ActionTypes.CREATE_SUCCESS,
+          payload: result.order.number,
+        });
+      })
+      .catch((err) => {
+        if (err.message === "jwt expired") {
+          refreshTokenReq().then(() => createBurgerOrder(dispatch));
+        } else {
+          dispatch({
+            type: ActionTypes.CREATE_FAILED,
+            payload: err.message,
+          });
+        }
       });
-    })
-    .catch((err) => {
-      dispatch({
-        type: ActionTypes.CREATE_FAILED,
-        payload: err,
-      });
-    });
+  };
 };

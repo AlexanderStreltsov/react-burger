@@ -22,7 +22,7 @@ export const getIngredientsAction = () => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: ActionTypes.GET_FAILED,
-        payload: err,
+        payload: err.message,
       });
     });
 };

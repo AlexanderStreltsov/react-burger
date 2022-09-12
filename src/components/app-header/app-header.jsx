@@ -16,7 +16,6 @@ const AppHeader = () => {
   const listItemClass = `${headerStyles.listItem} mt-4 mb-4`;
   const linkClass = `${headerStyles.link} text text_type_main-default pt-4 pl-5 pb-4 pr-5`;
   const iconClass = `${headerStyles.icon} mr-2`;
-  const iconActiveClass = `${iconClass} ${headerStyles.iconActive}`;
 
   return (
     <header className={headerStyles.header}>

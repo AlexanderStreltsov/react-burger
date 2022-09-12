@@ -66,14 +66,6 @@ export const registerUser = (form) => (dispatch) => {
     });
 };
 
-const refreshToken = () => {
-  return refreshTokenReq().then((result) => {
-    const authToken = result.accessToken.split("Bearer ")[1];
-    setCookie("token", authToken);
-    localStorage.setItem("token", result.refreshToken);
-  });
-};
-
 export const getUser = () => {
   return function getUserAction(dispatch) {
     dispatch({ type: ActionTypes.GET_USER_REQUEST });
@@ -86,12 +78,13 @@ export const getUser = () => {
       })
       .catch((err) => {
         if (err.message === "jwt expired") {
-          refreshToken().then(() => getUserAction(dispatch));
+          refreshTokenReq().then(() => getUserAction(dispatch));
+        } else {
+          dispatch({
+            type: ActionTypes.GET_USER_FAILED,
+            payload: err.message,
+          });
         }
-        dispatch({
-          type: ActionTypes.GET_USER_FAILED,
-          payload: err.message,
-        });
       });
   };
 };
@@ -108,12 +101,13 @@ export const updateProfile = (form) => {
       })
       .catch((err) => {
         if (err.message === "jwt expired") {
-          refreshToken().then(() => updateProfileAction(dispatch));
+          refreshTokenReq().then(() => updateProfileAction(dispatch));
+        } else {
+          dispatch({
+            type: ActionTypes.UPDATE_FAILED,
+            payload: err.message,
+          });
         }
-        dispatch({
-          type: ActionTypes.UPDATE_FAILED,
-          payload: err.message,
-        });
       });
   };
 };

@@ -68,6 +68,11 @@ const Profile = () => {
     isNameChangedValid(value);
   };
 
+  const blurNameInput = () => {
+    isNameChangedValid(name);
+    setNameEditable(false);
+  };
+
   // action with login input
   if (
     updateError &&
@@ -97,6 +102,11 @@ const Profile = () => {
     isLoginChangedValid(value);
   };
 
+  const blurLoginInput = () => {
+    isLoginChangedValid(login);
+    setLoginEditable(false);
+  };
+
   // action with password input
   const editPassword = () => {
     setTimeout(() => passwordRef.current.focus(), 0);
@@ -116,6 +126,12 @@ const Profile = () => {
     isPasswordChangedValid(value);
   };
 
+  const blurPasswordInput = () => {
+    isPasswordChangedValid(password);
+    setPasswordEditable(false);
+  };
+
+  // check all inputs
   const isInputsChanged = () => {
     return name !== user.name || login !== user.email || password !== "";
   };
@@ -157,7 +173,7 @@ const Profile = () => {
           type={"text"}
           placeholder={"Имя"}
           onChange={changeNameInput}
-          onBlur={() => isNameChangedValid(name)}
+          onBlur={blurNameInput}
           icon={"EditIcon"}
           onIconClick={editName}
           value={name}
@@ -172,7 +188,7 @@ const Profile = () => {
           type={"email"}
           placeholder={"Логин"}
           onChange={changeLoginInput}
-          onBlur={() => isLoginChangedValid(login)}
+          onBlur={blurLoginInput}
           icon={"EditIcon"}
           onIconClick={editLogin}
           value={login}
@@ -190,7 +206,7 @@ const Profile = () => {
           type={"password"}
           placeholder={"Пароль"}
           onChange={changePasswordInput}
-          onBlur={() => isPasswordChangedValid(password)}
+          onBlur={blurPasswordInput}
           icon={"EditIcon"}
           onIconClick={editPassword}
           value={password}

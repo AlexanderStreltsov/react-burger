@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import {
   Input,
   Button,
@@ -25,6 +25,8 @@ import { routes } from "../../../utils/routes";
 
 const SignInPage = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
 
   const user = useSelector(getUser);
   const isLoginLoading = useSelector(getLoginStatus);
@@ -109,7 +111,7 @@ const SignInPage = () => {
   const linkClass = `${pageStyles.link} text text_type_main-default`;
 
   return user.email ? (
-    <Redirect to={routes.home} />
+    <Redirect to={location?.state?.from?.location?.pathname || routes.home} />
   ) : isLoginLoading ? (
     <Spinner />
   ) : (
