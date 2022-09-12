@@ -17,8 +17,6 @@ const IngredientDetails = () => {
 
   const ingredient = ingredients.find((ingredient) => ingredient._id === id);
 
-  console.log(ingredients);
-
   const detailTitleClass = "text text_type_main-default text_color_inactive";
   const detailValueClass = "text text_type_digits-default text_color_inactive";
 
