@@ -14,7 +14,7 @@ const NotFoundPage = () => {
         <p className="text text_type_main-medium">
           Извините, страница не найдена
         </p>
-        <p className="text text_type_main-small mt-8">
+        <p className="text text_type_main-default mt-8">
           Похоже Вы заблудились в космосе...
           <Link to={routes.home} className={`${pageStyles.link} ml-2`}>
             Вернуться домой

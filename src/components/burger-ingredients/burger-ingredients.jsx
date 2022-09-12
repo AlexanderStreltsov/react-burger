@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-scroll";
+import { Link as AnchorLink } from "react-scroll";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
@@ -59,11 +59,11 @@ const BurgerIngredients = () => {
         <ul className={ingredientsStyle.tabList}>
           {categoryTypeList.map((type) => (
             <li key={type}>
-              <Link to={type} spy={true} smooth={true} containerId="categories">
+              <AnchorLink to={type} smooth={true} containerId="categories">
                 <Tab value={type} active={currentTab === type}>
                   {categoryNames[type]}
                 </Tab>
-              </Link>
+              </AnchorLink>
             </li>
           ))}
         </ul>

@@ -2,7 +2,7 @@ import { ActionTypes } from "./actions";
 
 const initialState = {
   ingredients: [],
-  isLoading: false,
+  isLoading: true,
   isFailed: false,
   currentTab: "bun",
 };

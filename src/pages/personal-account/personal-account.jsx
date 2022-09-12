@@ -3,7 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import pageStyles from "./personal-account.module.css";
 import PersonalAccountNavigation from "./navigation/navigation";
 import Profile from "./profile/profile";
-import OrdersHistoryPages from "./orders-history/orders-history";
+import OrdersHistoryPage from "./orders-history/orders-history";
 import { routes } from "../../utils/routes";
 import { getLogoutStatus } from "../../services/auth/selectors";
 import Spinner from "../../components/spinner/spinner";
@@ -20,7 +20,7 @@ const PersonalAccountPage = () => {
           <Profile />
         </Route>
         <Route exact path={routes.orders}>
-          <OrdersHistoryPages />
+          <OrdersHistoryPage />
         </Route>
       </Switch>
     </div>
