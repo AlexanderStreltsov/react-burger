@@ -4,8 +4,10 @@ import {
   refreshTokenReq,
   getUserReq,
   forgotReq,
+  resetReq,
+  loginReq,
 } from "../../utils/api";
-import { setCookie, getErrMsgForUser } from "../../utils/utils";
+import { setCookie } from "../../utils/utils";
 
 export const name = "AUTH";
 
@@ -30,8 +32,13 @@ export const ActionTypes = {
   FORGOT_SUCCESS: `${name}/FORGOT_SUCCESS`,
   FORGOT_FAILED: `${name}/FORGOT_FAILED`,
 
+  RESET_REQUEST: `${name}/RESET_REQUEST`,
+  RESET_SUCCESS: `${name}/RESET_SUCCESS`,
+  RESET_FAILED: `${name}/RESET_FAILED`,
+
+  RESET_ERRORS: `${name}/RESET_ERRORS`,
+
   LOGOUT: `${name}/LOGOUT`,
-  RESET: `${name}/RESET`,
 };
 
 export const registerUser = (form) => (dispatch) => {
@@ -50,7 +57,7 @@ export const registerUser = (form) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: ActionTypes.REGISTER_FAILED,
-        payload: getErrMsgForUser(err) || err.message,
+        payload: err.message,
       });
       return Promise.reject(err);
     });
@@ -102,7 +109,7 @@ export const updateProfile = (form) => {
         }
         dispatch({
           type: ActionTypes.UPDATE_FAILED,
-          payload: getErrMsgForUser(err) || err.message,
+          payload: err.message,
         });
       });
   };
@@ -118,6 +125,42 @@ export const forgotPassword = (email) => (dispatch) => {
     .catch((err) => {
       dispatch({
         type: ActionTypes.FORGOT_FAILED,
+        payload: err.message,
+      });
+    });
+};
+
+export const resetPassword = (form) => (dispatch) => {
+  dispatch({ type: ActionTypes.RESET_REQUEST });
+
+  resetReq(form)
+    .then(() => {
+      dispatch({ type: ActionTypes.RESET_SUCCESS });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ActionTypes.RESET_FAILED,
+        payload: err.message,
+      });
+    });
+};
+
+export const loginUser = (form) => (dispatch) => {
+  dispatch({ type: ActionTypes.LOGIN_REQUEST });
+
+  loginReq(form)
+    .then((result) => {
+      const authToken = result.accessToken.split("Bearer ")[1];
+      setCookie("token", authToken);
+      localStorage.setItem("token", result.refreshToken);
+      dispatch({
+        type: ActionTypes.LOGIN_SUCCESS,
+        payload: result.user,
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: ActionTypes.LOGIN_FAILED,
         payload: err.message,
       });
     });

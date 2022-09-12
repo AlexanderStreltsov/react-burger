@@ -45,9 +45,9 @@
 .link {
   text-decoration: none;
   color: #4c4cff;
-  transition: opacity 0.2s linear;
+  transition: color 0.2s linear;
 }
 
 .link:hover {
-  opacity: 0.7;
+  color: #f2f2f3;
 }

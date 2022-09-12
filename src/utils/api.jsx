@@ -1,13 +1,19 @@
 import { getCookie } from "./utils";
 
 const apiUrl = "https://norma.nomoreparties.space/api";
+
 const apiIngredients = apiUrl + "/ingredients";
 const apiOrders = apiUrl + "/orders";
-const apiRegister = apiUrl + "/auth/register";
-const apiGetUser = apiUrl + "/auth/user";
-const apiUpdateProfile = apiUrl + "/auth/user";
-const apiRefreshToken = apiUrl + "/auth/token";
+
+const apiAuth = apiUrl + "/auth";
+const apiRegister = apiAuth + "/register";
+const apiGetUser = apiAuth + "/user";
+const apiLogin = apiAuth + "/login";
+const apiUpdateProfile = apiAuth + "/user";
+const apiRefreshToken = apiAuth + "/token";
+
 const apiForgotPassword = apiUrl + "/password-reset";
+const apiResetPassword = apiForgotPassword + "/reset";
 
 const checkResponse = (res) =>
   res.ok ? res.json() : res.json().then((data) => Promise.reject(data));
@@ -91,5 +97,27 @@ export const forgotReq = (email) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(email),
+  }).then((res) => checkResponse(res));
+};
+
+export const resetReq = (form) => {
+  return fetch(apiResetPassword, {
+    method: "POST",
+    ...request,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
+  }).then((res) => checkResponse(res));
+};
+
+export const loginReq = (form) => {
+  return fetch(apiLogin, {
+    method: "POST",
+    ...request,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(form),
   }).then((res) => checkResponse(res));
 };

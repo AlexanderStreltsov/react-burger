@@ -10,8 +10,16 @@ import {
   getUpdateStatus,
   getUpdateError,
 } from "../../../services/auth/selectors";
-import { updateProfile } from "../../../services/auth/actions";
-import { checkEmailValid } from "../../../utils/utils";
+import {
+  updateProfile,
+  ActionTypes as ActionTypesAuth,
+} from "../../../services/auth/actions";
+import {
+  checkNameValid,
+  checkEmailValid,
+  checkPasswordValid,
+  getErrMsgForUser,
+} from "../../../utils/validate-form";
 import Spinner from "../../../components/spinner/spinner";
 
 const Profile = () => {
@@ -26,12 +34,6 @@ const Profile = () => {
     setLogin(user.email);
   }, [user]);
 
-  useEffect(() => {
-    if (updateError && updateError.includes("зарегистрирован")) {
-      setLoginValid(false);
-    }
-  }, [updateError]);
-
   const [name, setName] = useState(user.name);
   const [isNameEditable, setNameEditable] = useState(false);
   const [isNameValid, setNameValid] = useState(true);
@@ -41,10 +43,6 @@ const Profile = () => {
   const [isLoginValid, setLoginValid] = useState(true);
   const [loginExist, setLoginExist] = useState("");
 
-  if (updateError && !loginExist) {
-    setLoginExist(login);
-  }
-
   const [password, setPassword] = useState("");
   const [isPasswordEditable, setPasswordEditable] = useState(false);
   const [isPasswordValid, setPasswordValid] = useState(true);
@@ -53,47 +51,81 @@ const Profile = () => {
   const loginRef = useRef(null);
   const passwordRef = useRef(null);
 
+  // action with name input
   const editName = () => {
     setTimeout(() => nameRef.current.focus(), 0);
-    setNameValid(true);
     setNameEditable(true);
   };
 
-  const checkNameValue = () => {
-    setNameEditable(false);
-    name || setNameValid(false);
+  const isNameChangedValid = (value) => {
+    return checkNameValid(value) ? setNameValid(true) : setNameValid(false);
   };
+
+  const changeNameInput = () => {
+    setTimeout(() => nameRef.current.focus(), 0);
+    const value = nameRef.current.value;
+    setName(value);
+    isNameChangedValid(value);
+  };
+
+  // action with login input
+  if (
+    updateError &&
+    updateError.includes("exist") &&
+    login !== user.email &&
+    !loginExist
+  ) {
+    setLoginExist(login);
+    setLoginValid(false);
+  }
 
   const editLogin = () => {
     setTimeout(() => loginRef.current.focus(), 0);
-    setLoginValid(true);
     setLoginEditable(true);
   };
 
-  const checkLoginValue = () => {
-    setLoginEditable(false);
-    setLoginValid(checkEmailValid(login) ? loginExist !== login : false);
+  const isLoginChangedValid = (value) => {
+    return checkEmailValid(value)
+      ? setLoginValid(loginExist !== value)
+      : setLoginValid(false);
   };
 
+  const changeLoginInput = () => {
+    setTimeout(() => loginRef.current.focus(), 0);
+    const value = loginRef.current.value;
+    setLogin(value);
+    isLoginChangedValid(value);
+  };
+
+  // action with password input
   const editPassword = () => {
     setTimeout(() => passwordRef.current.focus(), 0);
-    setPasswordValid(true);
     setPasswordEditable(true);
   };
 
-  const checkPasswordValue = () => {
-    setPasswordEditable(false);
-    !password || password.length > 5 || setPasswordValid(false);
+  const isPasswordChangedValid = (value) => {
+    return password
+      ? setPasswordValid(checkPasswordValid(value))
+      : setPasswordValid(true);
   };
 
-  const isProfileChanged = () => {
+  const changePasswordInput = () => {
+    setTimeout(() => passwordRef.current.focus(), 0);
+    const value = passwordRef.current.value;
+    setPassword(value);
+    isPasswordChangedValid(value);
+  };
+
+  const isInputsChanged = () => {
+    return name !== user.name || login !== user.email || password !== "";
+  };
+
+  const isInputsChangedValid = () => {
     return (
-      (name && name !== user.name) ||
-      (checkEmailValid(login) &&
-        login !== user.email &&
-        login !== loginExist) ||
-      (password && password.length > 5) ||
-      isUpdateLoading
+      checkNameValid(name) &&
+      checkEmailValid(login) &&
+      (!password || checkPasswordValid(password)) &&
+      login !== loginExist
     );
   };
 
@@ -106,12 +138,14 @@ const Profile = () => {
     setLoginExist("");
     setPassword("");
     setPasswordValid(true);
+    dispatch({ type: ActionTypesAuth.RESET_ERRORS });
   };
 
   const submitUpdate = (evt) => {
     evt.preventDefault();
     setLoginExist("");
     dispatch(updateProfile({ name, email: login, password }));
+    setPassword("");
   };
 
   return isUpdateLoading ? (
@@ -122,8 +156,8 @@ const Profile = () => {
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={(evt) => setName(evt.target.value)}
-          onBlur={checkNameValue}
+          onChange={changeNameInput}
+          onBlur={() => isNameChangedValid(name)}
           icon={"EditIcon"}
           onIconClick={editName}
           value={name}
@@ -132,13 +166,13 @@ const Profile = () => {
           disabled={!isNameEditable}
           ref={nameRef}
           error={!isNameValid}
-          errorText={"Введите имя"}
+          errorText={getErrMsgForUser("Name is empty")}
         />
         <Input
           type={"email"}
           placeholder={"Логин"}
-          onChange={(evt) => setLogin(evt.target.value)}
-          onBlur={checkLoginValue}
+          onChange={changeLoginInput}
+          onBlur={() => isLoginChangedValid(login)}
           icon={"EditIcon"}
           onIconClick={editLogin}
           value={login}
@@ -148,14 +182,15 @@ const Profile = () => {
           ref={loginRef}
           error={!isLoginValid}
           errorText={
-            (loginExist === login && updateError) || "Некорректный e-mail"
+            (loginExist === login && getErrMsgForUser(updateError)) ||
+            getErrMsgForUser("Email no valid")
           }
         />
         <Input
           type={"password"}
           placeholder={"Пароль"}
-          onChange={(evt) => setPassword(evt.target.value)}
-          onBlur={checkPasswordValue}
+          onChange={changePasswordInput}
+          onBlur={() => isPasswordChangedValid(password)}
           icon={"EditIcon"}
           onIconClick={editPassword}
           value={password}
@@ -164,7 +199,7 @@ const Profile = () => {
           disabled={!isPasswordEditable}
           ref={passwordRef}
           error={!isPasswordValid}
-          errorText={"Пароль должен быть более 5 символов"}
+          errorText={getErrMsgForUser("Pass no valid")}
         />
       </fieldset>
       <fieldset className={styles.handlersBlock}>
@@ -172,11 +207,17 @@ const Profile = () => {
           type="secondary"
           size="medium"
           onClick={resetUpdate}
-          disabled={isUpdateLoading}
+          disabled={!isInputsChanged() || isUpdateLoading}
         >
           Отмена
         </Button>
-        <Button type="primary" size="medium" disabled={!isProfileChanged()}>
+        <Button
+          type="primary"
+          size="medium"
+          disabled={
+            !((isInputsChanged() && isInputsChangedValid()) || isUpdateLoading)
+          }
+        >
           Сохранить
         </Button>
       </fieldset>

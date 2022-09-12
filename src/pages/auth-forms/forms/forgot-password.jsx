@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import {
@@ -7,8 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import pageStyles from "../auth-forms.module.css";
 import { routes } from "../../../utils/routes";
-import { checkEmailValid } from "../../../utils/utils";
-import { forgotPassword } from "../../../services/auth/actions";
+import {
+  checkEmailValid,
+  getErrMsgForUser,
+} from "../../../utils/validate-form";
+import {
+  forgotPassword,
+  ActionTypes as ActionTypesAuth,
+} from "../../../services/auth/actions";
 import {
   getForgotStatus,
   getForgotGeted,
@@ -26,8 +32,15 @@ const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setEmailValid] = useState(true);
 
-  const isShowErrorEmail = () => {
-    return checkEmailValid(email);
+  const emailRef = useRef(null);
+
+  const isEmailChangedValid = (value) => setEmailValid(checkEmailValid(value));
+
+  const changeEmailInput = (evt) => {
+    setTimeout(() => emailRef.current.focus(), 0);
+    const value = emailRef.current.value;
+    setEmail(value);
+    isEmailChangedValid(value);
   };
 
   const submitEmail = (e) => {
@@ -48,19 +61,19 @@ const ForgotPasswordPage = () => {
         <Input
           type={"email"}
           placeholder={"E-mail"}
-          onChange={(evt) => setEmail(evt.target.value)}
-          onFocus={() => setEmailValid(true)}
-          onBlur={() => setEmailValid(isShowErrorEmail)}
+          onChange={changeEmailInput}
+          onBlur={() => isEmailChangedValid(email)}
           value={email}
           name={"email"}
           error={!isEmailValid}
-          errorText={"Некорректный e-mail"}
+          errorText={getErrMsgForUser("Email no valid")}
           size={"default"}
+          ref={emailRef}
         />
         <Button
           type="primary"
           size="medium"
-          disabled={!checkEmailValid(email) && !isForgotLoading}
+          disabled={!checkEmailValid(email) || isForgotLoading}
         >
           Восстановить
         </Button>
@@ -72,6 +85,7 @@ const ForgotPasswordPage = () => {
         <Link
           className={`${pageStyles.link} text text_type_main-default`}
           to={routes.signin}
+          onClick={() => dispatch({ type: ActionTypesAuth.RESET_ERRORS })}
         >
           Войти
         </Link>

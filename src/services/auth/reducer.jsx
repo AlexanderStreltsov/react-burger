@@ -5,12 +5,17 @@ const initialState = {
   isRegisterLoading: false,
   registerError: null,
   isGetUserLoading: false,
-  getUserError: false,
+  getUserError: null,
   isUpdateLoading: false,
   updateError: null,
   isForgotLoading: false,
   forgotError: null,
   isForgotGeted: false,
+  resetError: null,
+  isResetLoading: false,
+  isResetSucceded: false,
+  loginError: null,
+  isLoginLoading: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -35,6 +40,28 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isRegisterLoading: false,
         registerError: action.payload,
+      };
+    }
+    case ActionTypes.LOGIN_REQUEST: {
+      return {
+        ...state,
+        isLoginLoading: true,
+        loginError: null,
+      };
+    }
+    case ActionTypes.LOGIN_SUCCESS: {
+      return {
+        ...state,
+        isLoginLoading: false,
+        loginError: null,
+        user: action.payload,
+      };
+    }
+    case ActionTypes.LOGIN_FAILED: {
+      return {
+        ...state,
+        isLoginLoading: false,
+        loginError: action.payload,
       };
     }
     case ActionTypes.GET_USER_REQUEST: {
@@ -103,9 +130,37 @@ export const authReducer = (state = initialState, action) => {
         forgotError: action.payload,
       };
     }
-    case ActionTypes.RESET: {
+    case ActionTypes.RESET_REQUEST: {
       return {
-        initialState,
+        ...state,
+        isResetLoading: true,
+        resetError: false,
+      };
+    }
+    case ActionTypes.RESET_SUCCESS: {
+      return {
+        ...state,
+        isResetLoading: false,
+        resetError: null,
+        isResetSucceded: true,
+      };
+    }
+    case ActionTypes.RESET_FAILED: {
+      return {
+        ...state,
+        isResetLoading: false,
+        resetError: action.payload,
+      };
+    }
+    case ActionTypes.RESET_ERRORS: {
+      return {
+        ...state,
+        registerError: null,
+        getUserError: null,
+        updateError: null,
+        forgotError: null,
+        resetError: null,
+        loginError: null,
       };
     }
     default:
