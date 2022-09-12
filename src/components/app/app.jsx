@@ -11,6 +11,7 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import OrderDetails from "../order-details/order-details";
 import ConstructorPage from "../../pages/constructor/constructor";
+import NotFoundPage from "../../pages/not-found/not-found";
 import { getUser } from "../../services/auth/actions";
 import { getUserStatus } from "../../services/auth/selectors";
 import { getIngredientsAction } from "../../services/ingredients/actions";
@@ -71,6 +72,9 @@ const App = () => {
             </Route>
             <Route exact path={routes.profile}>
               <PersonalAccountPage />
+            </Route>
+            <Route>
+              <NotFoundPage />
             </Route>
           </Switch>
         </main>
