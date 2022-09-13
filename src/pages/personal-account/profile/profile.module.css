@@ -1,0 +1,32 @@
+.form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inputBlock {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  row-gap: 24px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.inputBlock > div,
+.inputBlock > div > div {
+  width: 100%;
+}
+
+.inputBlock > div > p {
+  margin-bottom: 0;
+}
+
+.handlersBlock {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  justify-content: right;
+}

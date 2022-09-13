@@ -1,0 +1,40 @@
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.listItem {
+  margin: 17px 0;
+}
+
+.link {
+  text-decoration: none;
+  transition: color 0.3s linear;
+  color: #8585ad;
+}
+
+.link:hover {
+  color: #f2f2f3;
+}
+
+.linkActive {
+  color: #f2f2f3;
+}
+
+.button {
+  background: none;
+  display: flex;
+  box-sizing: border-box;
+  border: none;
+  transition: color 0.3s linear;
+  cursor: pointer;
+  color: #8585ad;
+  padding: 0;
+}
+
+.button:hover {
+  color: #f2f2f3;
+}

@@ -1,5 +1,5 @@
-import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import {
   ConstructorElement,
@@ -9,22 +9,34 @@ import {
 import constructorStyles from "./burger-constructor.module.css";
 import {
   addConstructor,
-  RESET_CONSTRUCTOR,
-} from "../../services/actions/constructor";
-import { orderBurger } from "../../services/actions/order";
+  ActionTypes as ActionTypesConstructor,
+} from "../../services/constructor/actions";
+import { orderBurger } from "../../services/order/actions";
+import {
+  getConstructorItems,
+  getTotalPrice,
+  getIngredientsId,
+} from "../../services/constructor/selectors";
+import { getUser } from "../../services/auth/selectors";
+import { getOrderRequestStatus } from "../../services/order/selectors";
 import BurgerEmptyElement from "../burger-empty-element/burger-empty-element";
 import BurgerConstructorElement from "../burger-constructor-element/burger-constructor-element";
 import Spinner from "../spinner/spinner";
 import { dragDropTypes } from "../../utils/drag-drop-types";
+import { routes } from "../../utils/routes";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const ingredients = useSelector(
-    (store) => store.burgerConstructor.ingredients
-  );
-  const bun = useSelector((store) => store.burgerConstructor.bun);
-  const isLoading = useSelector((store) => store.order.isLoading);
+  const user = useSelector(getUser);
+
+  const { ingredients, bun } = useSelector(getConstructorItems);
+  const isLoading = useSelector(getOrderRequestStatus);
+  const totalPrice = useSelector(getTotalPrice);
+  const ingredientsId = useSelector(getIngredientsId);
+
+  const isIngredients = ingredients.length > 0;
 
   const [, dropTarget] = useDrop({
     accept: dragDropTypes.new,
@@ -33,35 +45,20 @@ const BurgerConstructor = () => {
     },
   });
 
-  const isIngredients = ingredients.length > 0;
-  const isBun = Object.keys(bun).length > 0;
-
-  const totalPrice = useMemo(() => {
-    return (
-      ingredients.reduce((acc, ingredient) => ingredient.price + acc, 0) +
-      (isBun ? bun.price * 2 : 0)
-    );
-  }, [bun, ingredients, isBun]);
-
-  const ingredientsId = useMemo(() => {
-    const bunId = isBun ? [bun._id, bun._id] : [];
-
-    return ingredients.reduce((acc, ingredient) => {
-      acc.splice(-1, 0, ingredient._id);
-      return acc;
-    }, bunId);
-  }, [bun, ingredients, isBun]);
-
   const handleCreateOrder = () => {
-    dispatch(orderBurger(ingredientsId));
-    dispatch({ type: RESET_CONSTRUCTOR });
+    if (user.email) {
+      dispatch(orderBurger({ ingredients: ingredientsId }));
+      dispatch({ type: ActionTypesConstructor.RESET });
+    } else {
+      history.push(routes.signin);
+    }
   };
 
   return (
     <section className={constructorStyles.section}>
       {!isLoading ? (
         <div className={constructorStyles.wrapper} ref={dropTarget}>
-          {isBun ? (
+          {bun ? (
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -85,7 +82,7 @@ const BurgerConstructor = () => {
           ) : (
             <BurgerEmptyElement />
           )}
-          {isBun ? (
+          {bun ? (
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -111,7 +108,7 @@ const BurgerConstructor = () => {
           type="primary"
           size="large"
           onClick={handleCreateOrder}
-          disabled={!(isBun || isIngredients) || isLoading}
+          disabled={!(bun || isIngredients) || isLoading}
         >
           Оформить заказ
         </Button>

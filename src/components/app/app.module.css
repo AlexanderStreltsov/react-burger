@@ -11,11 +11,7 @@
 
 .content {
   width: 1280px;
-  padding: 0 20px;
   height: 100vh;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(2, 600px);
-  column-gap: 40px;
   box-sizing: border-box;
 }

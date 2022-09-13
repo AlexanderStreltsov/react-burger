@@ -1,33 +1,24 @@
 import { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-scroll";
+import { Link as AnchorLink } from "react-scroll";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientsCategory from "../ingredients-category/ingredients-category";
 import ingredientsStyle from "./burger-ingredients.module.css";
 import Spinner from "../spinner/spinner";
+import { setCurrentTab } from "../../services/ingredients/actions";
 import {
-  setCurrentTab,
-  getIngredientsAction,
-} from "../../services/actions/ingredients";
+  getIngredients,
+  getCurrentTab,
+  getRequestStatus,
+} from "../../services/ingredients/selectors";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredientsAction());
-  }, [dispatch]);
-
-  const ingredients = useSelector((store) => store.ingredients.ingredients);
-  const currentTab = useSelector((store) => store.ingredients.currentTab);
-  const isLoading = useSelector((store) => store.ingredients.isLoading);
-
-  const categoryNames = {
-    bun: "Булки",
-    sauce: "Соусы",
-    main: "Начинки",
-  };
-  const categoryTypeList = Object.keys(categoryNames);
+  const ingredients = useSelector(getIngredients);
+  const currentTab = useSelector(getCurrentTab);
+  const isLoading = useSelector(getRequestStatus);
 
   const getFilteredIngredientsList = (ingredients, type) => {
     return ingredients.filter((item) => item.type === type);
@@ -49,6 +40,18 @@ const BurgerIngredients = () => {
     isInViewMain && dispatch(setCurrentTab("main"));
   }, [isInViewBun, isInViewSauce, isInViewMain, dispatch]);
 
+  const categoryNames = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main: "Начинки",
+  };
+  const categoryRefs = {
+    bun: bunRef,
+    sauce: sauceRef,
+    main: mainRef,
+  };
+  const categoryTypeList = Object.keys(categoryNames);
+
   return (
     <section>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -56,11 +59,11 @@ const BurgerIngredients = () => {
         <ul className={ingredientsStyle.tabList}>
           {categoryTypeList.map((type) => (
             <li key={type}>
-              <Link to={type} spy={true} smooth={true} containerId="categories">
+              <AnchorLink to={type} smooth={true} containerId="categories">
                 <Tab value={type} active={currentTab === type}>
                   {categoryNames[type]}
                 </Tab>
-              </Link>
+              </AnchorLink>
             </li>
           ))}
         </ul>
@@ -77,9 +80,7 @@ const BurgerIngredients = () => {
               id={type}
               ingredients={getFilteredIngredientsList(ingredients, type)}
               categoryNames={categoryNames}
-              bunRef={bunRef}
-              sauceRef={sauceRef}
-              mainRef={mainRef}
+              ref={categoryRefs[type]}
             />
           ))}
         </ul>
