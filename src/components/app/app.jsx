@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { getOrderModalStatus } from "../../services/order/selectors";
-import { ActionTypes as ActionTypesDetails } from "../../services/ingredient-details/actions";
 import { ActionTypes as ActionTypesOrder } from "../../services/order/actions";
 import { getUser } from "../../services/auth/actions";
 import { getUserStatus } from "../../services/auth/selectors";
@@ -51,7 +50,6 @@ const App = () => {
 
   const handleCloseModals = () => {
     history.replace(routes.home);
-    dispatch({ type: ActionTypesDetails.RESET_MODAL });
     dispatch({ type: ActionTypesOrder.RESET_MODAL });
   };
 

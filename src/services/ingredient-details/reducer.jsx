@@ -12,9 +12,6 @@ export const ingredientDetailsReducer = (state = initialState, action) => {
         isLoading: action.payload,
       };
     }
-    case ActionTypes.RESET_MODAL: {
-      return initialState;
-    }
     default:
       return state;
   }

@@ -1,7 +1,6 @@
 export const name = "DETAILS";
 
 export const ActionTypes = {
-  RESET_MODAL: `${name}/RESET_MODAL`,
   LOAD_IMAGE: `${name}/LOAD_IMAGE`,
 };
 
