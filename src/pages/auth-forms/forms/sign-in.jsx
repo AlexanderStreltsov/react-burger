@@ -111,7 +111,7 @@ const SignInPage = () => {
   const linkClass = `${pageStyles.link} text text_type_main-default`;
 
   return user.email ? (
-    <Redirect to={location?.state?.from?.location?.pathname || routes.home} />
+    <Redirect to={location?.state?.from?.pathname || routes.home} />
   ) : isLoginLoading ? (
     <Spinner />
   ) : (

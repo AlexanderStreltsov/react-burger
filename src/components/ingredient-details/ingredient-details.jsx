@@ -1,4 +1,5 @@
-import { useParams, Redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams, Redirect, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import detailsStyles from "./ingredient-details.module.css";
 import { loadImage } from "../../services/ingredient-details/actions";
@@ -9,11 +10,18 @@ import { routes } from "../../utils/routes";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { id } = useParams();
 
   const isLoading = useSelector(getLoadImageStatus);
   const ingredients = useSelector(getIngredients);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      history.replace(`${routes.ingredients}/${id}`);
+    }
+  }, [ingredients, history, id]);
 
   const ingredient = ingredients.find((ingredient) => ingredient._id === id);
 
