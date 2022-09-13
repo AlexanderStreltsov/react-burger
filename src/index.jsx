@@ -9,7 +9,7 @@ const Router = process.env.PUBLIC_URL ? HashRouter : BrowserRouter;
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={process.env.PUBLIC_URL + "/"}>
+    <Router>
       <Provider store={store}>
         <App />
       </Provider>
