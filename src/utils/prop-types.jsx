@@ -20,3 +20,14 @@ export const ingredientInOrderPropType = PropTypes.shape({
   ...ingredient,
   count: PropTypes.number.isRequired,
 });
+
+export const orderPropType = PropTypes.shape({
+  createdAt: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientInOrderPropType).isRequired,
+});

@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./feed-order-element.module.css";
 import IngredientsGroupImages from "../ingredients-group-images/ingredients-group-images";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { orderPropType } from "../../utils/prop-types";
 import { formatDate } from "../../utils/format-date";
 import { routes } from "../../utils/routes";
 
@@ -39,6 +40,10 @@ const FeedOrderElement = ({ order }) => {
       </Link>
     </li>
   );
+};
+
+FeedOrderElement.propTypes = {
+  order: orderPropType.isRequired,
 };
 
 export default FeedOrderElement;
