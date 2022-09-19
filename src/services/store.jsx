@@ -1,15 +1,18 @@
 import { compose, createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { rootReducer } from "./root-reducer";
+import { socketMiddleware } from "./socket-middleware";
+import { wsUrlFeed, WsActionTypesFeed } from "../utils/ws";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-export const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, socketMiddleware(wsUrlFeed, WsActionTypesFeed))
 );
+
+const store = createStore(rootReducer, enhancer);
 
 export default store;

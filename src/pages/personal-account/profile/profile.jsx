@@ -167,77 +167,82 @@ const Profile = () => {
   return isUpdateLoading ? (
     <Spinner />
   ) : (
-    <form className={styles.form} onSubmit={submitUpdate} noValidate>
-      <fieldset className={styles.inputBlock}>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={changeNameInput}
-          onBlur={blurNameInput}
-          icon={"EditIcon"}
-          onIconClick={editName}
-          value={name}
-          name={"name"}
-          size={"default"}
-          disabled={!isNameEditable}
-          ref={nameRef}
-          error={!isNameValid}
-          errorText={getErrMsgForUser("Name is empty")}
-        />
-        <Input
-          type={"email"}
-          placeholder={"Логин"}
-          onChange={changeLoginInput}
-          onBlur={blurLoginInput}
-          icon={"EditIcon"}
-          onIconClick={editLogin}
-          value={login}
-          name={"email"}
-          size={"default"}
-          disabled={!isLoginEditable}
-          ref={loginRef}
-          error={!isLoginValid}
-          errorText={
-            (loginExist === login && getErrMsgForUser(updateError)) ||
-            getErrMsgForUser("Email no valid")
-          }
-        />
-        <Input
-          type={"password"}
-          placeholder={"Пароль"}
-          onChange={changePasswordInput}
-          onBlur={blurPasswordInput}
-          icon={"EditIcon"}
-          onIconClick={editPassword}
-          value={password}
-          name={"password"}
-          size={"default"}
-          disabled={!isPasswordEditable}
-          ref={passwordRef}
-          error={!isPasswordValid}
-          errorText={getErrMsgForUser("Pass no valid")}
-        />
-      </fieldset>
-      <fieldset className={styles.handlersBlock}>
-        <Button
-          type="secondary"
-          size="medium"
-          onClick={resetUpdate}
-          disabled={!isInputsChanged() || isUpdateLoading}
-        >
-          Отмена
-        </Button>
-        <Button
-          type="primary"
-          size="medium"
-          disabled={
-            !((isInputsChanged() && isInputsChangedValid()) || isUpdateLoading)
-          }
-        >
-          Сохранить
-        </Button>
-      </fieldset>
-    </form>
+    <section>
+      <form className={styles.form} onSubmit={submitUpdate} noValidate>
+        <fieldset className={styles.inputBlock}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={changeNameInput}
+            onBlur={blurNameInput}
+            icon={"EditIcon"}
+            onIconClick={editName}
+            value={name}
+            name={"name"}
+            size={"default"}
+            disabled={!isNameEditable}
+            ref={nameRef}
+            error={!isNameValid}
+            errorText={getErrMsgForUser("Name is empty")}
+          />
+          <Input
+            type={"email"}
+            placeholder={"Логин"}
+            onChange={changeLoginInput}
+            onBlur={blurLoginInput}
+            icon={"EditIcon"}
+            onIconClick={editLogin}
+            value={login}
+            name={"email"}
+            size={"default"}
+            disabled={!isLoginEditable}
+            ref={loginRef}
+            error={!isLoginValid}
+            errorText={
+              (loginExist === login && getErrMsgForUser(updateError)) ||
+              getErrMsgForUser("Email no valid")
+            }
+          />
+          <Input
+            type={"password"}
+            placeholder={"Пароль"}
+            onChange={changePasswordInput}
+            onBlur={blurPasswordInput}
+            icon={"EditIcon"}
+            onIconClick={editPassword}
+            value={password}
+            name={"password"}
+            size={"default"}
+            disabled={!isPasswordEditable}
+            ref={passwordRef}
+            error={!isPasswordValid}
+            errorText={getErrMsgForUser("Pass no valid")}
+          />
+        </fieldset>
+        <fieldset className={styles.handlersBlock}>
+          <Button
+            type="secondary"
+            size="medium"
+            onClick={resetUpdate}
+            disabled={!isInputsChanged() || isUpdateLoading}
+          >
+            Отмена
+          </Button>
+          <Button
+            type="primary"
+            size="medium"
+            disabled={
+              !(
+                (isInputsChanged() && isInputsChangedValid()) ||
+                isUpdateLoading
+              )
+            }
+          >
+            Сохранить
+          </Button>
+        </fieldset>
+      </form>
+    </section>
   );
 };
 

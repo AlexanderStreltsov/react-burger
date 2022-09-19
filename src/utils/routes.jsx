@@ -9,5 +9,6 @@ export const routes = {
   ingredients: "/ingredients",
   ingredient: "/ingredients/:id",
   feed: "/feed",
+  feedOrder: "/feed/:id",
   notfound: "/not-found-404",
 };

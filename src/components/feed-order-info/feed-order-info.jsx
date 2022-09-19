@@ -1,0 +1,99 @@
+import { useEffect } from "react";
+import { useParams, Redirect, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import Avatar from "@mui/material/Avatar";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import Spinner from "../spinner/spinner";
+import styles from "./feed-order-info.module.css";
+import { routes } from "../../utils/routes";
+import { getOrderStatus } from "../../utils/order-status";
+import { getOrders } from "../../services/feed/selectors";
+import { ActionTypes as ActionTypesFeed } from "../../services/feed/actions";
+import { formatDate } from "../../utils/format-date";
+
+const FeedOrderInfo = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const { id } = useParams();
+
+  const orders = useSelector(getOrders);
+
+  useEffect(() => {
+    if (!orders.length) {
+      dispatch({ type: ActionTypesFeed.CONNECTION_START });
+      history.replace(`${routes.feed}/${id}`);
+    }
+
+    return () => {
+      dispatch({ type: ActionTypesFeed.CONNECTION_CLOSED });
+    };
+  }, [dispatch, orders, history, id]);
+
+  const order = orders.find((order) => order._id === id);
+
+  return orders.length === 0 ? (
+    <Spinner />
+  ) : order === undefined ? (
+    <Redirect to={routes.notfound} />
+  ) : (
+    <div className={styles.wrapper}>
+      <p className={`${styles.number} text text_type_digits-default`}>
+        #{order.number}
+      </p>
+      <h2 className="text text_type_main-medium mt-10">{order.name}</h2>
+      <p
+        className={`${
+          order.status === "done" ? styles.done : styles.status
+        } text text_type_main-default mt-3`}
+      >
+        {getOrderStatus(order.status)}
+      </p>
+      <h3 className="text text_type_main-medium mt-15 mb-6">Состав:</h3>
+      <ul
+        className={
+          order.ingredients.length > 4 ? styles.listScroll : styles.list
+        }
+      >
+        {order.ingredients.map((ingredient, index) => {
+          return (
+            <li key={index} className={styles.ingredient}>
+              <Avatar
+                alt={ingredient.name}
+                src={ingredient.image_mobile}
+                sx={{
+                  backgroundColor: "#131316",
+                  border: "2px solid #4C4CFF",
+                  width: "64px",
+                  height: "64px",
+                }}
+              />
+              <h3 className="text text_type_main-default">{ingredient.name}</h3>
+              <div className={`${styles.priceList}`}>
+                <p className="text text_type_digits-default mr-2">
+                  {ingredient.count} &times; {ingredient.price}
+                </p>
+                <i className={styles.icon}>
+                  <CurrencyIcon />
+                </i>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <div className={`${styles.container} mt-10`}>
+        <p className="text text_type_main-default text_color_inactive">
+          {formatDate(order.createdAt)}
+        </p>
+        <div className={styles.price}>
+          <p className="text text_type_digits-default mr-2">{order.price}</p>
+          <i className={styles.icon}>
+            <CurrencyIcon />
+          </i>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FeedOrderInfo;
