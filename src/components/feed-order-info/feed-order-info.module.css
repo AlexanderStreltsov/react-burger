@@ -1,0 +1,74 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.number {
+  align-self: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.listScroll {
+  composes: list;
+  padding: 0 24px 0 0;
+  overflow-y: auto;
+  scrollbar-color: #8585ad #2f2f37;
+  scrollbar-width: thin;
+  max-height: 320px;
+}
+
+.listScroll::-webkit-scrollbar {
+  width: 8px;
+  margin-left: 24px;
+}
+
+.listScroll::-webkit-scrollbar-track {
+  background-color: #2f2f37;
+}
+
+.listScroll::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border: 3px solid #8585ad;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  display: flex;
+}
+
+.priceList {
+  display: flex;
+  margin-left: auto;
+}
+
+.icon,
+.icon > svg {
+  height: 24px;
+  width: 24px;
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.done {
+  color: #00cccc;
+}
+
+.status {
+  color: #fff;
+}

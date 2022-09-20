@@ -4,7 +4,7 @@
 
 ### Ссылка на проект
 
-[Project on gh pages](https://alexanderstreltsov.github.io/react-burger/)
+[Github pages](https://alexanderstreltsov.github.io/react-burger/)
 
 ### Обзор
 
@@ -16,4 +16,5 @@
 - Вложенная сортировка ингредиентов;
 - Добавление страниц авторизации, регистрации, восстановления пароля и личного кабинета;
 - Работа с роутингом;
-- Сессии пользователя.
+- Сессии пользователя;
+- WebSocket.

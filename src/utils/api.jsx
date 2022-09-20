@@ -94,7 +94,7 @@ export const refreshTokenReq = () => {
     .then((res) => checkResponse(res))
     .then((result) => {
       const authToken = result.accessToken.split("Bearer ")[1];
-      setCookie("token", authToken);
+      setCookie("token", authToken, { path: "/" });
       localStorage.setItem("token", result.refreshToken);
     });
 };

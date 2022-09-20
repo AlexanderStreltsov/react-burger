@@ -4,8 +4,10 @@ import IngredientDetails from "../../components/ingredient-details/ingredient-de
 const IngredientPage = () => {
   return (
     <div className={pageStyles.wrapper}>
-      <h1 className="text text_type_main-large mt-4">Детали ингредиента</h1>
-      <IngredientDetails />
+      <div className={pageStyles.container}>
+        <h1 className="text text_type_main-large mt-4">Детали ингредиента</h1>
+        <IngredientDetails />
+      </div>
     </div>
   );
 };

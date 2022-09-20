@@ -50,7 +50,7 @@ export const registerUser = (form) => (dispatch) => {
   return registerUserReq(form)
     .then((result) => {
       const authToken = result.accessToken.split("Bearer ")[1];
-      setCookie("token", authToken);
+      setCookie("token", authToken, { path: "/" });
       localStorage.setItem("token", result.refreshToken);
       dispatch({
         type: ActionTypes.REGISTER_SUCCESS,
@@ -148,7 +148,7 @@ export const loginUser = (form) => (dispatch) => {
   loginReq(form)
     .then((result) => {
       const authToken = result.accessToken.split("Bearer ")[1];
-      setCookie("token", authToken);
+      setCookie("token", authToken, { path: "/" });
       localStorage.setItem("token", result.refreshToken);
       dispatch({
         type: ActionTypes.LOGIN_SUCCESS,
@@ -168,7 +168,7 @@ export const logoutUser = () => (dispatch) => {
 
   logoutReq()
     .then(() => {
-      setCookie("token", null, { expires: -10 });
+      setCookie("token", null, { expires: -10, path: "/" });
       localStorage.removeItem("token");
       dispatch({ type: ActionTypes.LOGOUT_SUCCESS });
     })

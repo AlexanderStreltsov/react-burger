@@ -7,6 +7,9 @@ import pageStyles from "./constructor.module.css";
 const ConstructorPage = () => {
   return (
     <div className={pageStyles.wrapper}>
+      <h1 className={`${pageStyles.title} text text_type_main-large mt-10`}>
+        Соберите бургер
+      </h1>
       <DndProvider backend={HTML5Backend}>
         <BurgerIngredients />
         <BurgerConstructor />

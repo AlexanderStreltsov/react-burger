@@ -14,15 +14,17 @@ const PersonalAccountPage = () => {
     <Spinner />
   ) : (
     <div className={pageStyles.wrapper}>
-      <PersonalAccountNavigation />
-      <Switch>
-        <Route exact path={routes.profile}>
-          <Profile />
-        </Route>
-        <Route exact path={routes.orders}>
-          <OrdersHistoryPage />
-        </Route>
-      </Switch>
+      <div className={pageStyles.container}>
+        <PersonalAccountNavigation />
+        <Switch>
+          <Route exact path={routes.profile}>
+            <Profile />
+          </Route>
+          <Route exact path={routes.orders}>
+            <OrdersHistoryPage />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 };
