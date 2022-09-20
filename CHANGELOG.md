@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/AlexanderStreltsov/react-burger/compare/v1.0.0...v1.1.0) (2022-09-20)
+
+
+### Features
+
+* add auth ws + profile orders ([824d3c3](https://github.com/AlexanderStreltsov/react-burger/commit/824d3c35ef3a1ec9c4523ee56565ccc0fec6ef90))
+* add feed prop types ([55b6ead](https://github.com/AlexanderStreltsov/react-burger/commit/55b6eadb400943bdbaec051633eb7880240fd41f))
+* add standard version ([7ee0cb8](https://github.com/AlexanderStreltsov/react-burger/commit/7ee0cb8255d1a4fd4a55fa508673c59f19a24057))
+* add ws connect + feed ([cf8afcf](https://github.com/AlexanderStreltsov/react-burger/commit/cf8afcf9de207831bbd07b8e4cd666563335b34a))
+* set cookie into one place from diff pages ([9b2be7a](https://github.com/AlexanderStreltsov/react-burger/commit/9b2be7a739a9b611504ffea5b246e6a91087c176))
+
+
+### Bug Fixes
+
+* correct use hash router ([a41bcc8](https://github.com/AlexanderStreltsov/react-burger/commit/a41bcc8fa1882786dd2b2481bdb5ee81812b2348))
+
 ## 1.0.0 (2022-09-13)
 
 
