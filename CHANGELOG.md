@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/AlexanderStreltsov/react-burger/compare/v1.1.0...v1.1.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* refactor by reviewer's comments ([63732d7](https://github.com/AlexanderStreltsov/react-burger/commit/63732d74b08814b40b531333784b359a9d2d932e))
+
 ## [1.1.0](https://github.com/AlexanderStreltsov/react-burger/compare/v1.0.0...v1.1.0) (2022-09-20)
 
 
