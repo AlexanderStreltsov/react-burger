@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   useParams,
   Redirect,
@@ -50,13 +50,14 @@ const FeedOrderInfo = () => {
     };
   }, [dispatch, orders, history, id, match.path]);
 
-  const order = orders.find((order) => order._id === id);
+  const order = useMemo(
+    () => orders.find((order) => order._id === id),
+    [orders, id]
+  );
 
-  return orders.length === 0 ? (
-    <Spinner />
-  ) : order === undefined ? (
-    <Redirect to={routes.notfound} />
-  ) : (
+  if (!order) return <Redirect to={routes.notfound} />;
+  if (!orders.length) return <Spinner />;
+  return (
     <div className={styles.wrapper}>
       <p className={`${styles.number} text text_type_digits-default`}>
         #{order.number}

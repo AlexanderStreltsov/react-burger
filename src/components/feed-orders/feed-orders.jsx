@@ -7,8 +7,8 @@ const FeedOrders = ({ orders }) => {
   return (
     <section>
       <ul className={styles.list}>
-        {orders.map((order, index) => {
-          return <FeedOrderElement key={index} order={order} />;
+        {orders.map((order) => {
+          return <FeedOrderElement key={order._id} order={order} />;
         })}
       </ul>
     </section>
