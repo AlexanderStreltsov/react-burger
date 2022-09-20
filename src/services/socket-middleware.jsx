@@ -1,4 +1,6 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
+import { getCookie } from "../utils/utils";
+
+export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
   return (store) => {
     let socket = null;
 
@@ -8,7 +10,9 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =
         wsActions;
       if (type === wsInit) {
-        socket = new WebSocket(wsUrl);
+        socket = isAuth
+          ? new WebSocket(`${wsUrl}?token=${getCookie("token")}`)
+          : new WebSocket(wsUrl);
       }
       if (socket) {
         socket.onopen = (event) => {
@@ -32,7 +36,6 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         if (type === wsSendMessage) {
-          console.log("test ws send");
           socket.send(JSON.stringify(payload));
         }
       }

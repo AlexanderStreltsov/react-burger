@@ -1,13 +1,13 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useRouteMatch } from "react-router-dom";
 import styles from "./feed-order-element.module.css";
 import IngredientsGroupImages from "../ingredients-group-images/ingredients-group-images";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { orderPropType } from "../../utils/prop-types";
 import { formatDate } from "../../utils/format-date";
-import { routes } from "../../utils/routes";
 
 const FeedOrderElement = ({ order }) => {
   const location = useLocation();
+  const match = useRouteMatch();
 
   const { name, number, createdAt, ingredients, price } = order;
   const timeCreated = formatDate(createdAt);
@@ -17,7 +17,7 @@ const FeedOrderElement = ({ order }) => {
       <Link
         className={styles.item}
         to={{
-          pathname: `${routes.feed}/${order._id}`,
+          pathname: `${match.path}/${order._id}`,
           state: { background: location },
         }}
       >

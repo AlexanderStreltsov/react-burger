@@ -5,7 +5,8 @@ import { getIngredients } from "../ingredients/selectors";
 export const getTotal = (store) => store[name].total;
 export const getTotalToday = (store) => store[name].totalToday;
 
-const getOrdersState = (store) => store[name].orders;
+const getOrdersFeed = (store) => store[name].orders;
+const getOrdersAuth = (store) => store[name].ordersAuth;
 
 const getIngredientsOrderFiltered = (ingredients) => {
   const ingredientsFiltered = ingredients.reduce((acc, ingredient) => {
@@ -37,7 +38,7 @@ const getPriceOrder = (ingredients) => {
 };
 
 export const getOrders = createSelector(
-  getOrdersState,
+  getOrdersFeed,
   getIngredients,
   (orders, ingredients) => {
     return orders.map((order) => {
@@ -61,10 +62,35 @@ export const getOrders = createSelector(
   }
 );
 
-export const getOrdersDone = createSelector(getOrdersState, (orders) => {
+export const getOrdersDone = createSelector(getOrdersFeed, (orders) => {
   return orders.filter((order) => order.status === "done");
 });
 
-export const getOrdersPending = createSelector(getOrdersState, (orders) => {
+export const getOrdersPending = createSelector(getOrdersFeed, (orders) => {
   return orders.filter((order) => order.status === "pending");
 });
+
+export const getOrdersProfile = createSelector(
+  getOrdersAuth,
+  getIngredients,
+  (orders, ingredients) => {
+    return orders.map((order) => {
+      const ingredientsOrderFiltered = getIngredientsOrderFiltered(
+        order.ingredients
+      );
+
+      const ingredientsOrder = getIngredientsOrder(
+        ingredientsOrderFiltered,
+        ingredients
+      );
+
+      const priceOrder = getPriceOrder(ingredientsOrder);
+
+      return {
+        ...order,
+        ingredients: ingredientsOrder,
+        price: priceOrder,
+      };
+    });
+  }
+);

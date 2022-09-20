@@ -41,7 +41,6 @@ const AppHeader = () => {
             </li>
             <li className={listItemClass}>
               <NavLink
-                exact
                 to={routes.feed}
                 className={linkClass}
                 activeClassName={headerStyles.linkActive}

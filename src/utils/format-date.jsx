@@ -2,6 +2,8 @@ import moment from "moment";
 import "moment/locale/ru";
 
 export const formatDate = (date) => {
+  moment.suppressDeprecationWarnings = true;
+
   const formatDate = moment(date);
 
   let formatted = formatDate.calendar().replace(", в", ",");

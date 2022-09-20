@@ -80,6 +80,9 @@ const App = () => {
               <Route exact path={routes.reset}>
                 <ResetPasswordPage />
               </Route>
+              <ProtectedRoute path={routes.profileOrder}>
+                <FeedOrderInfoPage />
+              </ProtectedRoute>
               <ProtectedRoute path={routes.profile}>
                 <PersonalAccountPage />
               </ProtectedRoute>
@@ -116,6 +119,12 @@ const App = () => {
               <FeedOrderInfo />
             </Modal>
           </Route>
+
+          <ProtectedRoute path={routes.profileOrder}>
+            <Modal handleCloseModals={handleCloseModals}>
+              <FeedOrderInfo />
+            </Modal>
+          </ProtectedRoute>
         </>
       )}
 

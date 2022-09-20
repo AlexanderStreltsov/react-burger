@@ -4,7 +4,9 @@ import FeedOrderInfo from "../../components/feed-order-info/feed-order-info";
 const FeedOrderInfoPage = () => {
   return (
     <div className={pageStyles.wrapper}>
-      <FeedOrderInfo />
+      <div className={pageStyles.container}>
+        <FeedOrderInfo />
+      </div>
     </div>
   );
 };

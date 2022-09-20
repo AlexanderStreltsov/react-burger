@@ -6,6 +6,7 @@ export const routes = {
   reset: "/reset-password",
   profile: "/profile",
   orders: "/profile/orders",
+  profileOrder: "/profile/orders/:id",
   ingredients: "/ingredients",
   ingredient: "/ingredients/:id",
   feed: "/feed",

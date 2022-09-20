@@ -4,7 +4,6 @@ import styles from "./feed-orders.module.css";
 import FeedOrderElement from "../feed-order-element/feed-order-element";
 
 const FeedOrders = ({ orders }) => {
-  console.log(orders);
   return (
     <section>
       <ul className={styles.list}>

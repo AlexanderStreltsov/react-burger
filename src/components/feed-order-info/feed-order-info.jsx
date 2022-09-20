@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { useParams, Redirect, useHistory } from "react-router-dom";
+import {
+  useParams,
+  Redirect,
+  useHistory,
+  useRouteMatch,
+} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -7,28 +12,43 @@ import Spinner from "../spinner/spinner";
 import styles from "./feed-order-info.module.css";
 import { routes } from "../../utils/routes";
 import { getOrderStatus } from "../../utils/order-status";
-import { getOrders } from "../../services/feed/selectors";
+import { getOrders, getOrdersProfile } from "../../services/feed/selectors";
 import { ActionTypes as ActionTypesFeed } from "../../services/feed/actions";
 import { formatDate } from "../../utils/format-date";
 
 const FeedOrderInfo = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const match = useRouteMatch();
 
   const { id } = useParams();
 
-  const orders = useSelector(getOrders);
+  const ordersAll = useSelector(getOrders);
+  const ordersProfile = useSelector(getOrdersProfile);
+
+  const orders = match.path === routes.profileOrder ? ordersProfile : ordersAll;
 
   useEffect(() => {
-    if (!orders.length) {
+    if (!orders.length && match.path === routes.feedOrder) {
       dispatch({ type: ActionTypesFeed.CONNECTION_START });
       history.replace(`${routes.feed}/${id}`);
     }
 
+    if (!orders.length && match.path === routes.profileOrder) {
+      dispatch({ type: ActionTypesFeed.AUTH_CONNECTION_START });
+      history.replace(`${routes.orders}/${id}`);
+    }
+
     return () => {
-      dispatch({ type: ActionTypesFeed.CONNECTION_CLOSED });
+      if (match.path === routes.feedOrder) {
+        dispatch({ type: ActionTypesFeed.CONNECTION_CLOSED });
+      }
+
+      if (match.path === routes.profileOrder) {
+        dispatch({ type: ActionTypesFeed.AUTH_CONNECTION_CLOSED });
+      }
     };
-  }, [dispatch, orders, history, id]);
+  }, [dispatch, orders, history, id, match.path]);
 
   const order = orders.find((order) => order._id === id);
 
