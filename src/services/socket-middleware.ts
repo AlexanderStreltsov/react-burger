@@ -1,10 +1,16 @@
+import { AnyAction, MiddlewareAPI } from "redux";
 import { getCookie } from "../utils/utils";
+import { IWebSocketActions } from "../utils/types";
 
-export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: IWebSocketActions,
+  isAuth = false
+) => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
 
-    return (next) => (action) => {
+    return (next: (arg: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } =

@@ -1,13 +1,17 @@
 import { ActionTypes } from "./actions";
+import { IIngredientsState, TIngredientsActions } from "./types";
 
-const initialState = {
+const initialState: IIngredientsState = {
   ingredients: [],
   isLoading: true,
-  isFailed: false,
+  error: null,
   currentTab: "bun",
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (
+  state = initialState,
+  action: TIngredientsActions
+): IIngredientsState => {
   switch (action.type) {
     case ActionTypes.GET_REQUEST: {
       return {
@@ -20,14 +24,14 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         ingredients: action.payload,
         isLoading: false,
-        isFailed: false,
+        error: null,
       };
     }
     case ActionTypes.GET_FAILED: {
       return {
         ...state,
         isLoading: false,
-        isFailed: true,
+        error: action.payload,
       };
     }
     case ActionTypes.SWITCH_TAB: {

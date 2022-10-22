@@ -1,6 +1,7 @@
 import { ActionTypes } from "./actions";
+import { IAuthState, TAuthActions } from "./types";
 
-const initialState = {
+const initialState: IAuthState = {
   user: { name: "", email: "" },
   isRegisterLoading: false,
   registerError: null,
@@ -20,7 +21,10 @@ const initialState = {
   isLogoutLoading: false,
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (
+  state = initialState,
+  action: TAuthActions
+): IAuthState => {
   switch (action.type) {
     case ActionTypes.REGISTER_REQUEST: {
       return {

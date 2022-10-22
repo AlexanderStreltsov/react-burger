@@ -1,11 +1,15 @@
 import { ActionTypes } from "./actions";
+import { IConstructorState, TConstructorActions } from "./types";
 
-const initialState = {
+const initialState: IConstructorState = {
   ingredients: [],
   bun: null,
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (
+  state = initialState,
+  action: TConstructorActions
+): IConstructorState => {
   switch (action.type) {
     case ActionTypes.ADD: {
       return {

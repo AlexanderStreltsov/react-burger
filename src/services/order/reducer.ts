@@ -1,13 +1,17 @@
 import { ActionTypes } from "./actions";
+import { IOrderState, TOrderActions } from "./types";
 
-const initialState = {
+const initialState: IOrderState = {
   order: null,
   isLoading: false,
-  isFailed: false,
+  error: null,
   isOpen: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (
+  state = initialState,
+  action: TOrderActions
+): IOrderState => {
   switch (action.type) {
     case ActionTypes.CREATE_REQUEST: {
       return {
@@ -20,15 +24,15 @@ export const orderReducer = (state = initialState, action) => {
         ...state,
         order: action.payload,
         isLoading: false,
-        isFailed: false,
+        error: null,
         isOpen: true,
       };
     }
     case ActionTypes.CREATE_FAILED: {
       return {
         ...state,
+        error: action.payload,
         isLoading: false,
-        isFailed: true,
       };
     }
     case ActionTypes.RESET_MODAL: {

@@ -5,7 +5,7 @@ import App from "./components/app/app";
 import { Provider } from "react-redux";
 import store from "./services/store";
 
-const Router = process.env.PUBLIC_URL ? HashRouter : BrowserRouter;
+const Router: Function = process.env.PUBLIC_URL ? HashRouter : BrowserRouter;
 
 ReactDOM.render(
   <React.StrictMode>

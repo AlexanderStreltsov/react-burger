@@ -1,15 +1,17 @@
 import { getIngredients } from "../../utils/api";
+import { IActionTypes, IGetSwitchTabAction } from "./types";
+import { AppThunk, AppDispatch, TIngredientType } from "../../utils/types";
 
-export const name = "INGREDIENTS";
+export const name: "INGREDIENTS" = "INGREDIENTS";
 
-export const ActionTypes = {
+export const ActionTypes: IActionTypes = {
   GET_REQUEST: `${name}/GET_REQUEST`,
   GET_SUCCESS: `${name}/GET_SUCCESS`,
   GET_FAILED: `${name}/GET_FAILED`,
   SWITCH_TAB: `${name}/SWITCH_TAB`,
 };
 
-export const getIngredientsAction = () => (dispatch) => {
+export const getIngredientsAction: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch({ type: ActionTypes.GET_REQUEST });
 
   return getIngredients()
@@ -27,7 +29,7 @@ export const getIngredientsAction = () => (dispatch) => {
     });
 };
 
-export const setCurrentTab = (tab) => {
+export const setCurrentTab = (tab: TIngredientType): IGetSwitchTabAction => {
   return {
     type: ActionTypes.SWITCH_TAB,
     payload: tab,

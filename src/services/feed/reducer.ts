@@ -1,6 +1,7 @@
 import { ActionTypes } from "./actions";
+import { IFeedState, TFeedActions } from "./types";
 
-const initialState = {
+const initialState: IFeedState = {
   wsConnected: false,
   wsError: null,
   orders: [],
@@ -11,7 +12,10 @@ const initialState = {
   ordersAuth: [],
 };
 
-export const feedReducer = (state = initialState, action) => {
+export const feedReducer = (
+  state = initialState,
+  action: TFeedActions
+): IFeedState => {
   switch (action.type) {
     case ActionTypes.CONNECTION_SUCCESS: {
       return {

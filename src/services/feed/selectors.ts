@@ -1,25 +1,42 @@
 import { createSelector } from "reselect";
 import { name } from "./actions";
 import { getIngredients } from "../ingredients/selectors";
+import { RootState } from "../../utils/types";
+import {
+  IFeedOrderDetails,
+  IIngredient,
+  IFeedIngredient,
+} from "../../utils/types";
 
-export const getTotal = (store) => store[name].total;
-export const getTotalToday = (store) => store[name].totalToday;
+export const getTotal = (store: RootState) => store[name].total;
+export const getTotalToday = (store: RootState) => store[name].totalToday;
 
-const getOrdersFeed = (store) => store[name].orders;
-const getOrdersAuth = (store) => store[name].ordersAuth;
+const getOrdersFeed = (store: RootState) => store[name].orders;
+const getOrdersAuth = (store: RootState) => store[name].ordersAuth;
 
-const getIngredientsOrderFiltered = (ingredients) => {
-  const ingredientsFiltered = ingredients.reduce((acc, ingredient) => {
-    acc[ingredient] = (acc[ingredient] || 0) + 1;
-    return acc;
-  }, {});
+const getIngredientsOrderFiltered = (
+  ingredients: IFeedOrderDetails["ingredients"]
+) => {
+  const ingredientsFiltered = ingredients.reduce(
+    (acc: { [id: string]: number }, ingredient) => {
+      acc[ingredient] = (acc[ingredient] || 0) + 1;
+      return acc;
+    },
+    {}
+  );
 
   return Object.entries(ingredientsFiltered).map((arr) => {
     return { id: arr[0], count: arr[1] };
   });
 };
 
-const getIngredientsOrder = (ingredientsOrder, ingredients) => {
+const getIngredientsOrder = (
+  ingredientsOrder: {
+    id: string;
+    count: number;
+  }[],
+  ingredients: IIngredient[]
+) => {
   // eslint-disable-next-line array-callback-return
   return ingredientsOrder.map((ingredientOrder) => {
     for (let i = 0; i < ingredients.length; i++) {
@@ -30,9 +47,9 @@ const getIngredientsOrder = (ingredientsOrder, ingredients) => {
   });
 };
 
-const getPriceOrder = (ingredients) => {
+const getPriceOrder = (ingredients: (IFeedIngredient | undefined)[]) => {
   return ingredients.reduce(
-    (acc, ingredient) => (acc += ingredient.price * ingredient.count),
+    (acc, ingredient) => (acc += ingredient!.price * ingredient!.count),
     0
   );
 };

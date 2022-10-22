@@ -1,6 +1,8 @@
-export const name = "FEED";
+import { IActionTypes } from "./types";
 
-export const ActionTypes = {
+export const name: "FEED" = "FEED";
+
+export const ActionTypes: IActionTypes = {
   CONNECTION_START: `${name}/CONNECTION_START`,
   CONNECTION_SUCCESS: `${name}/CONNECTION_SUCCESS`,
   CONNECTION_ERROR: `${name}/CONNECTION_ERROR`,

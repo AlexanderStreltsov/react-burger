@@ -1,8 +1,9 @@
 import { createSelector } from "reselect";
 import { name } from "./actions";
+import { RootState } from "../../utils/types";
 
-const getBun = (store) => store[name].bun;
-const getIngredients = (store) => store[name].ingredients;
+const getBun = (store: RootState) => store[name].bun;
+const getIngredients = (store: RootState) => store[name].ingredients;
 
 export const getConstructorItems = createSelector(
   getBun,
@@ -40,7 +41,7 @@ export const getIngredientsCounters = createSelector(
   getBun,
   getIngredients,
   (bun, ingredients) => {
-    const counters = {};
+    const counters: { [id: string]: number } = {};
     ingredients.forEach((ingredient) => {
       if (!counters[ingredient._id]) counters[ingredient._id] = 0;
       counters[ingredient._id]++;

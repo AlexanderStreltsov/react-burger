@@ -9,10 +9,18 @@ import {
   logoutReq,
 } from "../../utils/api";
 import { setCookie } from "../../utils/utils";
+import { IActionTypes } from "./types";
+import {
+  AppThunk,
+  AppDispatch,
+  ILoginForm,
+  IRegistrationForm,
+  IResetPasswordForm,
+} from "../../utils/types";
 
-export const name = "AUTH";
+export const name: "AUTH" = "AUTH";
 
-export const ActionTypes = {
+export const ActionTypes: IActionTypes = {
   REGISTER_REQUEST: `${name}/REGISTER_REQUEST`,
   REGISTER_SUCCESS: `${name}/REGISTER_SUCCESS`,
   REGISTER_FAILED: `${name}/REGISTER_FAILED`,
@@ -44,30 +52,31 @@ export const ActionTypes = {
   RESET_ERRORS: `${name}/RESET_ERRORS`,
 };
 
-export const registerUser = (form) => (dispatch) => {
-  dispatch({ type: ActionTypes.REGISTER_REQUEST });
+export const registerUser: AppThunk =
+  (form: IRegistrationForm) => (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.REGISTER_REQUEST });
 
-  return registerUserReq(form)
-    .then((result) => {
-      const authToken = result.accessToken.split("Bearer ")[1];
-      setCookie("token", authToken, { path: "/" });
-      localStorage.setItem("token", result.refreshToken);
-      dispatch({
-        type: ActionTypes.REGISTER_SUCCESS,
-        payload: result.user,
+    return registerUserReq(form)
+      .then((result) => {
+        const authToken = result.accessToken.split("Bearer ")[1];
+        setCookie("token", authToken, { path: "/" });
+        localStorage.setItem("token", result.refreshToken);
+        dispatch({
+          type: ActionTypes.REGISTER_SUCCESS,
+          payload: result.user,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: ActionTypes.REGISTER_FAILED,
+          payload: err.message,
+        });
+        return Promise.reject(err);
       });
-    })
-    .catch((err) => {
-      dispatch({
-        type: ActionTypes.REGISTER_FAILED,
-        payload: err.message,
-      });
-      return Promise.reject(err);
-    });
-};
+  };
 
-export const getUser = () => {
-  return function getUserAction(dispatch) {
+export const getUser: AppThunk = () => {
+  return function getUserAction(dispatch: AppDispatch) {
     dispatch({ type: ActionTypes.GET_USER_REQUEST });
     getUserReq()
       .then((result) => {
@@ -89,8 +98,8 @@ export const getUser = () => {
   };
 };
 
-export const updateProfile = (form) => {
-  return function updateProfileAction(dispatch) {
+export const updateProfile: AppThunk = (form: IRegistrationForm) => {
+  return function updateProfileAction(dispatch: AppDispatch) {
     dispatch({ type: ActionTypes.UPDATE_REQUEST });
     updateProfileReq(form)
       .then((result) => {
@@ -112,58 +121,61 @@ export const updateProfile = (form) => {
   };
 };
 
-export const forgotPassword = (email) => (dispatch) => {
-  dispatch({ type: ActionTypes.FORGOT_REQUEST });
+export const forgotPassword: AppThunk =
+  (email: string) => (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.FORGOT_REQUEST });
 
-  forgotReq(email)
-    .then(() => {
-      dispatch({ type: ActionTypes.FORGOT_SUCCESS });
-    })
-    .catch((err) => {
-      dispatch({
-        type: ActionTypes.FORGOT_FAILED,
-        payload: err.message,
+    forgotReq(email)
+      .then(() => {
+        dispatch({ type: ActionTypes.FORGOT_SUCCESS });
+      })
+      .catch((err) => {
+        dispatch({
+          type: ActionTypes.FORGOT_FAILED,
+          payload: err.message,
+        });
       });
-    });
-};
+  };
 
-export const resetPassword = (form) => (dispatch) => {
-  dispatch({ type: ActionTypes.RESET_REQUEST });
+export const resetPassword: AppThunk =
+  (form: IResetPasswordForm) => (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.RESET_REQUEST });
 
-  resetReq(form)
-    .then(() => {
-      dispatch({ type: ActionTypes.RESET_SUCCESS });
-    })
-    .catch((err) => {
-      dispatch({
-        type: ActionTypes.RESET_FAILED,
-        payload: err.message,
+    resetReq(form)
+      .then(() => {
+        dispatch({ type: ActionTypes.RESET_SUCCESS });
+      })
+      .catch((err) => {
+        dispatch({
+          type: ActionTypes.RESET_FAILED,
+          payload: err.message,
+        });
       });
-    });
-};
+  };
 
-export const loginUser = (form) => (dispatch) => {
-  dispatch({ type: ActionTypes.LOGIN_REQUEST });
+export const loginUser: AppThunk =
+  (form: ILoginForm) => (dispatch: AppDispatch) => {
+    dispatch({ type: ActionTypes.LOGIN_REQUEST });
 
-  loginReq(form)
-    .then((result) => {
-      const authToken = result.accessToken.split("Bearer ")[1];
-      setCookie("token", authToken, { path: "/" });
-      localStorage.setItem("token", result.refreshToken);
-      dispatch({
-        type: ActionTypes.LOGIN_SUCCESS,
-        payload: result.user,
+    loginReq(form)
+      .then((result) => {
+        const authToken = result.accessToken.split("Bearer ")[1];
+        setCookie("token", authToken, { path: "/" });
+        localStorage.setItem("token", result.refreshToken);
+        dispatch({
+          type: ActionTypes.LOGIN_SUCCESS,
+          payload: result.user,
+        });
+      })
+      .catch((err) => {
+        dispatch({
+          type: ActionTypes.LOGIN_FAILED,
+          payload: err.message,
+        });
       });
-    })
-    .catch((err) => {
-      dispatch({
-        type: ActionTypes.LOGIN_FAILED,
-        payload: err.message,
-      });
-    });
-};
+  };
 
-export const logoutUser = () => (dispatch) => {
+export const logoutUser: AppThunk = () => (dispatch: AppDispatch) => {
   dispatch({ type: ActionTypes.LOGOUT_REQUEST });
 
   logoutReq()
