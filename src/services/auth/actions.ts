@@ -180,7 +180,7 @@ export const logoutUser: AppThunk = () => (dispatch: AppDispatch) => {
 
   logoutReq()
     .then(() => {
-      setCookie("token", null, { expires: -10, path: "/" });
+      setCookie("token", "", { expires: -10, path: "/" });
       localStorage.removeItem("token");
       dispatch({ type: ActionTypes.LOGOUT_SUCCESS });
     })

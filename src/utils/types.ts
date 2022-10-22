@@ -100,14 +100,16 @@ export interface IWebSocketActions {
   onMessage: string;
 }
 
+export type TOrderStatus = "created" | "done" | "pending";
+
 export interface IFeedOrderDetails {
   ingredients: string[];
   _id: string;
   name: string;
-  status: string;
+  status: TOrderStatus;
   number: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IFeedOrders {
@@ -120,3 +122,21 @@ export interface IFeedOrders {
 export interface IFeedIngredient extends IIngredient {
   count: number;
 }
+
+export type TFeedOrderDetailsWithPrice = Omit<
+  IFeedOrderDetails,
+  "ingredients"
+> & {
+  ingredients: (IFeedIngredient | undefined)[];
+  price: number;
+};
+
+export type TLocation<T extends "from" | "background"> = {
+  [key in T]: {
+    pathname: string;
+    search: string;
+    hash: string;
+    state: unknown;
+    key: string;
+  };
+};
