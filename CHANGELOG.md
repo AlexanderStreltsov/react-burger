@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/AlexanderStreltsov/react-burger/compare/v1.1.1...v1.2.0) (2022-11-23)
+
+
+### Features
+
+* add ts to all services ([8a07cc8](https://github.com/AlexanderStreltsov/react-burger/commit/8a07cc838ab9eecd1f41d19e009e5f6c0d1f0dd3))
+* refactor to ts all components ([e346461](https://github.com/AlexanderStreltsov/react-burger/commit/e3464614e86d5f51260977d8d3d4fe6847fa4b85))
+
 ### [1.1.1](https://github.com/AlexanderStreltsov/react-burger/compare/v1.1.0...v1.1.1) (2022-09-20)
 
 
